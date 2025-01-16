@@ -14,10 +14,10 @@ DoWhy suggests that we perform effect estimation tasks using the following pipel
 While I will not go into the motivation or reasoning behind this pipeline, I will modify the pipeline to something like this:
 
 1. Establish a causal graph that encapsulates assumptions about given data
-2. Refute the causal graph using statistical methods to check if the conditional independence statements dictated by our model align with the data.
+2. <span style="color:blue">Refute the causal graph using statistical methods to check if the conditional independence statements dictated by our model align with the data.</span>
 3. Identify possible causal questions (estimands) that we can find an estimate for
 4. Estimate the identified estimand
-5. Refute the estimate to check for validity and sensitivity
+5. <span style="color:blue">Refute the estimate to check for validity and sensitivity</span>
 
 ## **EstimateEffect Class Documentation**
 
