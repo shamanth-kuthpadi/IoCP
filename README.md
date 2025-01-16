@@ -1,5 +1,5 @@
 # MOCP
-Multi Omics Causal Pipeline (GECP) for modeling and inference
+Multi Omics Causal Pipeline (MOCP) for modeling and inference
 
 
 ## Streamlining DoWhy for Effect Estimation
