@@ -17,6 +17,7 @@ from cdt.utils.graph import dagify_min_edge
 from logging_utils import setup_logging, get_logger
 from config import CausalConfig
 from visualization_utils import visualize_graph, visualize_effect_estimate, visualize_refutation
+import time
 
 cdt.SETTINGS.rpath = '/usr/local/bin/Rscript'
 
@@ -493,32 +494,64 @@ class EstimateEffect:
         algo = algo if algo is not None else self.config.default_algorithms[0]
         self.logger.info("Running full causal inference pipeline.")
         print("[INFO] Running full causal inference pipeline...")
+        start_time = time.time()
         try:
             # Step 1: Learn causal graph
+            step_start = time.time()
             graph = self.find_causal_graph(algo=algo)
+            step_end = time.time()
+            print(f"[LATENCY] Causal graph discovery ({algo}): {step_end - step_start:.2f} seconds")
+            self.logger.info(f"Causal graph discovery ({algo}) took {step_end - step_start:.2f} seconds")
             if visualize:
                 self.visualize_graph()
             # Step 2: Refute graph (optional)
             if refute_graph:
+                step_start = time.time()
                 graph = self.refute_cgm()
+                step_end = time.time()
+                print(f"[LATENCY] Graph refutation: {step_end - step_start:.2f} seconds")
+                self.logger.info(f"Graph refutation took {step_end - step_start:.2f} seconds")
                 if visualize:
                     self.visualize_graph(title="Refuted Causal Graph")
             # Step 3: Create model
+            step_start = time.time()
             self.create_model(treatment, outcome)
+            step_end = time.time()
+            print(f"[LATENCY] Model creation: {step_end - step_start:.2f} seconds")
+            self.logger.info(f"Model creation took {step_end - step_start:.2f} seconds")
             # Step 4: Identify effect
+            step_start = time.time()
             self.identify_effect()
+            step_end = time.time()
+            print(f"[LATENCY] Effect identification: {step_end - step_start:.2f} seconds")
+            self.logger.info(f"Effect identification took {step_end - step_start:.2f} seconds")
             # Step 5: Estimate effect
+            step_start = time.time()
             self.estimate_effect()
+            step_end = time.time()
+            print(f"[LATENCY] Effect estimation: {step_end - step_start:.2f} seconds")
+            self.logger.info(f"Effect estimation took {step_end - step_start:.2f} seconds")
             if visualize:
                 self.visualize_effect_estimate()
             # Step 6: Refute estimate (optional)
             if refute_estimate:
+                step_start = time.time()
                 self.refute_estimate()
+                step_end = time.time()
+                print(f"[LATENCY] Estimate refutation: {step_end - step_start:.2f} seconds")
+                self.logger.info(f"Estimate refutation took {step_end - step_start:.2f} seconds")
                 if visualize:
                     self.visualize_refutation()
             # Step 7: Export results (optional)
             if export_path is not None:
+                step_start = time.time()
                 self.export_results(export_path, format=export_format)
+                step_end = time.time()
+                print(f"[LATENCY] Results export: {step_end - step_start:.2f} seconds")
+                self.logger.info(f"Results export took {step_end - step_start:.2f} seconds")
+            total_time = time.time() - start_time
+            print(f"[LATENCY] Total pipeline time ({algo}): {total_time:.2f} seconds")
+            self.logger.info(f"Total pipeline time ({algo}): {total_time:.2f} seconds")
             print("[INFO] Full pipeline completed successfully.")
             self.logger.info("Full pipeline completed successfully.")
             return self.get_all_information()
@@ -532,14 +565,16 @@ class EstimateEffect:
         """
         Run the pipeline for multiple algorithms specified in config.default_algorithms.
         """
+        import time
         algorithms = self.config.default_algorithms
         results = {}
         
         self.logger.info(f"Running pipeline for multiple algorithms: {algorithms}")
         print(f"[INFO] Running pipeline for {len(algorithms)} algorithms: {algorithms}")
-        
+        overall_start = time.time()
         for i, algo in enumerate(algorithms):
             print(f"\n=== Algorithm {i+1}/{len(algorithms)}: {algo} ===")
+            algo_start = time.time()
             try:
                 # Create a fresh estimator for each algorithm
                 fresh_estimator = EstimateEffect(self.data, config=self.config)
@@ -567,13 +602,20 @@ class EstimateEffect:
                     **kwargs
                 )
                 results[algo] = result
+                algo_end = time.time()
+                print(f"[LATENCY] {algo} total time: {algo_end - algo_start:.2f} seconds")
+                self.logger.info(f"{algo} total time: {algo_end - algo_start:.2f} seconds")
                 print(f"✅ {algo} completed successfully")
                 
             except Exception as e:
+                algo_end = time.time()
                 print(f"❌ {algo} failed: {e}")
+                print(f"[LATENCY] {algo} failed after {algo_end - algo_start:.2f} seconds")
                 self.logger.error(f"Algorithm {algo} failed: {e}")
                 results[algo] = None
-        
+        overall_end = time.time()
+        print(f"[LATENCY] Total time for all algorithms: {overall_end - overall_start:.2f} seconds")
+        self.logger.info(f"Total time for all algorithms: {overall_end - overall_start:.2f} seconds")
         # Summary
         successful = [algo for algo, result in results.items() if result is not None]
         failed = [algo for algo, result in results.items() if result is None]

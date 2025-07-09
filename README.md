@@ -241,6 +241,37 @@ results_20241201_143022/
 
 - If you see warnings or errors (e.g., about missing data, failed algorithms, or export issues), read the message for troubleshooting tips. The pipeline is designed to continue running other algorithms even if one fails.
 
+### **7. Latency Outputs (Timing Information)**
+
+```
+[LATENCY] Causal graph discovery (pc): 2.13 seconds
+[LATENCY] Graph refutation: 5.42 seconds
+[LATENCY] Model creation: 0.01 seconds
+[LATENCY] Effect identification: 0.02 seconds
+[LATENCY] Effect estimation: 0.03 seconds
+[LATENCY] Estimate refutation: 0.12 seconds
+[LATENCY] Results export: 0.01 seconds
+[LATENCY] Total pipeline time (pc): 7.72 seconds
+[LATENCY] ges total time: 8.01 seconds
+[LATENCY] Total time for all algorithms: 24.12 seconds
+```
+
+- **What it means:**
+  - Each `[LATENCY]` line shows how long a particular step or the entire pipeline took to run (in seconds).
+  - **Causal graph discovery:** Time to learn the causal structure from data for the specified algorithm.
+  - **Graph refutation:** Time to statistically test and possibly update the graph.
+  - **Model creation:** Time to instantiate the causal model.
+  - **Effect identification:** Time to identify the estimand (causal query).
+  - **Effect estimation:** Time to compute the causal effect.
+  - **Estimate refutation:** Time to test the robustness of the effect estimate.
+  - **Results export:** Time to save results to disk.
+  - **Total pipeline time (algo):** Total time for the full pipeline for a single algorithm.
+  - **Total time for all algorithms:** Total time spent running all algorithms in a multi-algorithm run.
+- **Why it's useful:**
+  - Helps you identify bottlenecks or slow steps in your analysis.
+  - Useful for benchmarking, optimization, and resource planning.
+  - Lets you compare the computational cost of different algorithms.
+
 ---
 
 ## Example: Full Workflow
