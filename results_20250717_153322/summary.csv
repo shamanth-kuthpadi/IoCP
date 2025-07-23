@@ -1,0 +1,4 @@
+Algorithm,TPa (#),TPa (total),TPa (p-value),LMC (#),LMC (total),LMC (p-value),Placebo Refuter (p-value),Random Common Cause Refuter (p-value),Data Subsample Refuter (p-value),Placebo Refuter (new effect),Random Common Cause Refuter (new effect),Data Subsample Refuter (new effect)
+pc,,,,,,,,,,,,
+ges,0,30,0.00,8,30,0.00,0.66,0.92,0.6200000000000001,-0.0928140191593127,-0.00516640529534726,-0.021743597724217523
+icalingam,0,30,0.00,9,18,0.17,0.94,1.0,0.96,-0.0027441117401787096,-0.1505305576229128,-0.15368557109220432

@@ -4,6 +4,9 @@ from causallearn.search.FCMBased import lingam
 from causallearn.utils.PDAG2DAG import pdag2dag
 from causallearn.search.FCMBased.lingam.utils import make_dot
 from util import *
+# https://stackoverflow.com/questions/79673823/dowhy-python-library-module-networkx-algorithms-has-no-attribute-d-separated
+nx.algorithms.d_separated = nx.algorithms.d_separation.is_d_separator
+nx.d_separated = nx.algorithms.d_separation.is_d_separator
 import dowhy.gcm.falsify
 from dowhy.gcm.falsify import falsify_graph
 from dowhy.gcm.falsify import apply_suggestions
@@ -18,6 +21,7 @@ from logging_utils import setup_logging, get_logger
 from config import CausalConfig
 from visualization_utils import visualize_graph, visualize_effect_estimate, visualize_refutation
 import time
+import pickle
 
 cdt.SETTINGS.rpath = '/usr/local/bin/Rscript'
 
@@ -367,8 +371,12 @@ class EstimateEffect:
                         subset_fraction=subset_fraction
                     )
                     ref = [ref_placebo, ref_rand_cause, ref_subset]
-            if not isinstance(ref, list) and ref.refutation_result['is_statistically_significant']:
-                print("Please make sure to take a revisit the pipeline as the refutation p-val is significant: ", ref.refutation_result['p_value'])
+            if not isinstance(ref, list) and ref is not None:
+                if hasattr(ref, 'refutation_result') and ref.refutation_result is not None:
+                    if ref.refutation_result.get('is_statistically_significant', False):
+                        print("Please revisit the pipeline as the refutation p-val is significant:", ref.refutation_result.get('p_value'))
+                else:
+                    self.logger.warning("[refute_estimate] Refuter returned no refutation result.")
             self.est_ref = ref
             self.logger.info("Estimate refutation complete.")
         except Exception as e:
@@ -536,7 +544,11 @@ class EstimateEffect:
             # Step 6: Refute estimate (optional)
             if refute_estimate:
                 step_start = time.time()
-                self.refute_estimate()
+                refuters = []
+                refuters.append(self.refute_estimate(method_name="placebo_treatment_refuter"))
+                refuters.append(self.refute_estimate(method_name="random_common_cause"))
+                refuters.append(self.refute_estimate(method_name="data_subset_refuter"))
+                self.est_ref = refuters
                 step_end = time.time()
                 print(f"[LATENCY] Estimate refutation: {step_end - step_start:.2f} seconds")
                 self.logger.info(f"Estimate refutation took {step_end - step_start:.2f} seconds")
@@ -546,6 +558,14 @@ class EstimateEffect:
             if export_path is not None:
                 step_start = time.time()
                 self.export_results(export_path, format=export_format)
+                # --- Save the causal graph as a pickle file ---
+                import os
+                base_dir = os.path.dirname(export_path)
+                algo_name = algo if algo is not None else self.config.default_algorithms[0]
+                graph_path = os.path.join(base_dir, f"causal_graph_{algo_name}.pkl")
+                with open(graph_path, "wb") as f:
+                    pickle.dump(self.graph, f)
+                print(f"[INFO] Causal graph saved to {graph_path}")
                 step_end = time.time()
                 print(f"[LATENCY] Results export: {step_end - step_start:.2f} seconds")
                 self.logger.info(f"Results export took {step_end - step_start:.2f} seconds")
@@ -554,7 +574,7 @@ class EstimateEffect:
             self.logger.info(f"Total pipeline time ({algo}): {total_time:.2f} seconds")
             print("[INFO] Full pipeline completed successfully.")
             self.logger.info("Full pipeline completed successfully.")
-            return self.get_all_information()
+            return {algo: self.get_all_information()}
         except Exception as e:
             print(f"[ERROR] Full pipeline failed: {e}")
             self.logger.error(f"Full pipeline failed: {e}")
@@ -566,6 +586,8 @@ class EstimateEffect:
         Run the pipeline for multiple algorithms specified in config.default_algorithms.
         """
         import time
+        import os
+        import pickle
         algorithms = self.config.default_algorithms
         results = {}
         
@@ -576,9 +598,8 @@ class EstimateEffect:
             print(f"\n=== Algorithm {i+1}/{len(algorithms)}: {algo} ===")
             algo_start = time.time()
             try:
-                # Create a fresh estimator for each algorithm
-                fresh_estimator = EstimateEffect(self.data, config=self.config)
-                
+                # Create a fresh estimator for each algorithm with a fresh copy of the data
+                fresh_estimator = EstimateEffect(self.data.copy(), config=self.config)
                 # Determine export path for this algorithm
                 algo_export_path = None
                 if export_path is not None:
@@ -588,7 +609,6 @@ class EstimateEffect:
                         algo_export_path = f"{base_path}_{algo}.{ext}"
                     else:
                         algo_export_path = f"{export_path}_{algo}"
-                
                 # Run pipeline for this algorithm
                 result = fresh_estimator.run_full_pipeline(
                     treatment=treatment,
@@ -601,18 +621,16 @@ class EstimateEffect:
                     export_format=export_format,
                     **kwargs
                 )
-                results[algo] = result
-                algo_end = time.time()
-                print(f"[LATENCY] {algo} total time: {algo_end - algo_start:.2f} seconds")
-                self.logger.info(f"{algo} total time: {algo_end - algo_start:.2f} seconds")
-                print(f"✅ {algo} completed successfully")
-                
+                print(f"[DEBUG] {algo} result: {result}")
+                results[algo] = result[algo] if isinstance(result, dict) and algo in result else result
             except Exception as e:
-                algo_end = time.time()
-                print(f"❌ {algo} failed: {e}")
-                print(f"[LATENCY] {algo} failed after {algo_end - algo_start:.2f} seconds")
-                self.logger.error(f"Algorithm {algo} failed: {e}")
-                results[algo] = None
+                print(f"[ERROR] {algo} failed: {e}")
+                results[algo] = {"error": str(e)}
+            algo_end = time.time()
+            print(f"[LATENCY] {algo} total time: {algo_end - algo_start:.2f} seconds")
+            self.logger.info(f"{algo} total time: {algo_end - algo_start:.2f} seconds")
+            print(f"✅ {algo} completed successfully")
+                
         overall_end = time.time()
         print(f"[LATENCY] Total time for all algorithms: {overall_end - overall_start:.2f} seconds")
         self.logger.info(f"Total time for all algorithms: {overall_end - overall_start:.2f} seconds")

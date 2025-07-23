@@ -8,7 +8,6 @@ class CausalConfig:
         self.default_refutation_methods = ['placebo_treatment_refuter', 'random_common_cause', 'data_subset_refuter']
         self.n_permutations = 100
         self.confidence_level = 0.95
-        self.max_vars = 50
 
     def run_multiple_algorithms(self, estimator, treatment, outcome, algorithms=None, **kwargs):
         """
@@ -32,11 +31,9 @@ class CausalConfig:
         for algo in algorithms:
             print(f"\n=== Testing Algorithm: {algo} ===")
             try:
-                # Create a fresh estimator for each algorithm
                 from CausalModules import EstimateEffect
                 fresh_estimator = EstimateEffect(estimator.data, config=self)
                 
-                # Run pipeline for this algorithm
                 result = fresh_estimator.run_full_pipeline(
                     treatment=treatment,
                     outcome=outcome,
@@ -44,10 +41,10 @@ class CausalConfig:
                     **kwargs
                 )
                 results[algo] = result
-                print(f"✅ {algo} completed successfully")
+                print(f"{algo} completed successfully")
                 
             except Exception as e:
-                print(f"❌ {algo} failed: {e}")
+                print(f"{algo} failed: {e}")
                 results[algo] = None
                 
         return results 

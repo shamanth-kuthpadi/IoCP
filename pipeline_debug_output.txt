@@ -1,0 +1,60 @@
+2025-07-18 11:38:14,862 DEBUG: pydot initializing
+2025-07-18 11:38:14,862 DEBUG: pydot 4.0.1
+2025-07-18 11:38:14,863 DEBUG: pydot core module initializing
+2025-07-18 11:38:14,903 DEBUG: matplotlib data path: /opt/anaconda3/envs/iocp/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-07-18 11:38:14,905 DEBUG: CONFIGDIR=/Users/shamanthk/.matplotlib
+2025-07-18 11:38:14,906 DEBUG: interactive is False
+2025-07-18 11:38:14,906 DEBUG: platform is darwin
+2025-07-18 11:38:14,931 DEBUG: CACHEDIR=/Users/shamanthk/.matplotlib
+2025-07-18 11:38:14,932 DEBUG: Using fontManager instance from /Users/shamanthk/.matplotlib/fontlist-v390.json
+2025-07-18 11:38:15,430 DEBUG: deprecate positional args: graphviz.backend.piping.pipe(['renderer', 'formatter', 'neato_no_op', 'quiet'])
+2025-07-18 11:38:15,430 DEBUG: deprecate positional args: graphviz.backend.rendering.render(['renderer', 'formatter', 'neato_no_op', 'quiet'])
+2025-07-18 11:38:15,431 DEBUG: deprecate positional args: graphviz.backend.unflattening.unflatten(['stagger', 'fanout', 'chain', 'encoding'])
+2025-07-18 11:38:15,431 DEBUG: deprecate positional args: graphviz.backend.viewing.view(['quiet'])
+2025-07-18 11:38:15,432 DEBUG: deprecate positional args: graphviz.quoting.quote(['is_html_string', 'is_valid_id', 'dot_keywords', 'endswith_odd_number_of_backslashes', 'escape_unescaped_quotes'])
+2025-07-18 11:38:15,432 DEBUG: deprecate positional args: graphviz.quoting.a_list(['kwargs', 'attributes'])
+2025-07-18 11:38:15,432 DEBUG: deprecate positional args: graphviz.quoting.attr_list(['kwargs', 'attributes'])
+2025-07-18 11:38:15,432 DEBUG: deprecate positional args: graphviz.dot.Dot.clear(['self', 'keep_attrs'])
+2025-07-18 11:38:15,432 DEBUG: deprecate positional args: graphviz.dot.Dot.__iter__(['self', 'subgraph'])
+2025-07-18 11:38:15,432 DEBUG: deprecate positional args: graphviz.dot.Dot.node(['label', '_attributes'])
+2025-07-18 11:38:15,432 DEBUG: deprecate positional args: graphviz.dot.Dot.edge(['label', '_attributes'])
+2025-07-18 11:38:15,432 DEBUG: deprecate positional args: graphviz.dot.Dot.attr(['kw', '_attributes'])
+2025-07-18 11:38:15,432 DEBUG: deprecate positional args: graphviz.dot.Dot.subgraph(['graph', 'name', 'comment', 'graph_attr', 'node_attr', 'edge_attr', 'body'])
+2025-07-18 11:38:15,433 DEBUG: deprecate positional args: graphviz.piping.Pipe._pipe_legacy(['format', 'renderer', 'formatter', 'neato_no_op', 'quiet'])
+2025-07-18 11:38:15,433 DEBUG: deprecate positional args: graphviz.saving.Save.save(['filename', 'directory'])
+2025-07-18 11:38:15,433 DEBUG: deprecate positional args: graphviz.rendering.Render.render(['filename', 'directory', 'view', 'cleanup', 'format', 'renderer', 'formatter', 'neato_no_op', 'quiet', 'quiet_view'])
+2025-07-18 11:38:15,433 DEBUG: deprecate positional args: graphviz.rendering.Render.view(['filename', 'directory', 'cleanup', 'quiet', 'quiet_view'])
+2025-07-18 11:38:15,433 DEBUG: deprecate positional args: graphviz.unflattening.Unflatten.unflatten(['self', 'stagger', 'fanout', 'chain'])
+2025-07-18 11:38:15,433 DEBUG: deprecate positional args: graphviz.graphs.BaseGraph.__init__(['name', 'comment', 'filename', 'directory', 'format', 'engine', 'encoding', 'graph_attr', 'node_attr', 'edge_attr', 'body', 'strict'])
+2025-07-18 11:38:15,434 DEBUG: deprecate positional args: graphviz.sources.Source.from_file(['filename', 'directory', 'format', 'engine', 'encoding', 'renderer', 'formatter'])
+2025-07-18 11:38:15,434 DEBUG: deprecate positional args: graphviz.sources.Source.__init__(['source', 'filename', 'directory', 'format', 'engine', 'encoding'])
+2025-07-18 11:38:15,434 DEBUG: deprecate positional args: graphviz.sources.Source.save(['filename', 'directory'])
+2025-07-18 11:38:16,171 INFO: IOMICS Causal Pipeline (IoCP) - Full Pipeline Runner
+2025-07-18 11:38:16,171 INFO: ============================================================
+2025-07-18 11:38:16,402 INFO: Initializing EstimateEffect with input data.
+2025-07-18 11:38:16,403 INFO: Running full causal inference pipeline.
+2025-07-18 11:38:16,403 INFO: Starting causal graph discovery with algorithm: pc
+2025-07-18 11:38:18,845 INFO: Causal graph discovery complete.
+2025-07-18 11:38:18,845 INFO: Causal graph discovery (pc) took 2.44 seconds
+2025-07-18 11:38:18,845 INFO: Starting graph refutation/falsification.
+2025-07-18 11:39:31,179 INFO: Graph refutation/falsification complete.
+2025-07-18 11:39:31,180 INFO: Graph refutation took 72.33 seconds
+2025-07-18 11:39:31,180 INFO: Creating CausalModel with treatment: PIP3, outcome: pmek
+2025-07-18 11:39:31,180 INFO: Model to find the causal effect of treatment ['PIP3'] on outcome ['pmek']
+2025-07-18 11:39:31,180 INFO: CausalModel created successfully.
+2025-07-18 11:39:31,180 INFO: Model creation took 0.00 seconds
+2025-07-18 11:39:31,180 INFO: Identifying effect with method: None
+2025-07-18 11:39:31,180 WARNING: No directed path from treatment to outcome. Causal Effect is zero.
+2025-07-18 11:39:31,180 INFO: Effect identification complete.
+2025-07-18 11:39:31,180 INFO: Effect identification took 0.00 seconds
+2025-07-18 11:39:31,180 INFO: Estimating effect with method: backdoor.linear_regression
+2025-07-18 11:39:31,181 INFO: linear_regression
+2025-07-18 11:39:31,181 INFO: INFO: Using Linear Regression Estimator
+2025-07-18 11:39:31,181 WARNING: No directed path from ['PIP3'] to ['pmek'].
+2025-07-18 11:39:31,181 INFO: Effect estimation complete.
+2025-07-18 11:39:31,181 INFO: Effect estimation took 0.00 seconds
+2025-07-18 11:39:31,181 INFO: Refuting estimate with method: placebo_treatment_refuter
+2025-07-18 11:39:31,181 ERROR: [refute_estimate] 'NoneType' object is not subscriptable
+2025-07-18 11:39:31,181 ERROR: Full pipeline failed: [refute_estimate] Error in refuting estimate: 'NoneType' object is not subscriptable
+2025-07-18 11:39:31,181 ERROR: 
+Pipeline execution failed: [refute_estimate] Error in refuting estimate: 'NoneType' object is not subscriptable

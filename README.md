@@ -56,15 +56,6 @@ pip install pandas numpy networkx matplotlib pydot scikit-learn dowhy causal-lea
 - Data should be a pandas DataFrame with variables as columns.
 - No missing values allowed (clean or impute before use).
 
-```python
-import pandas as pd
-from util import preproc
-
-betas_df = pd.read_csv('data/betas.csv')
-pds_df = pd.read_csv('data/pds.csv')
-df = preproc(betas_df, pds_df)
-```
-
 ### 2. Configure the Pipeline (Optional)
 
 You can use the default configuration or customize it:
@@ -106,7 +97,7 @@ results = estimator.run_full_pipeline(
 )
 ```
 
-#### Multiple Algorithms (NEW!)
+#### Multiple Algorithms
 
 ```python
 # If config.default_algorithms has multiple algorithms, all will be run automatically
@@ -218,6 +209,69 @@ results_20241201_143022/
   - Each file contains the full pipeline results for one algorithm.
   - The files include the graph structure, effect estimate, estimand expression, and refutation results.
   - You can load these files in Python for further analysis or reporting.
+
+---
+
+## **Summary CSV Output**
+
+After running the pipeline, a `summary.csv` file is generated in the results directory. This file provides a concise, algorithm-by-algorithm summary of key metrics for model quality and robustness.
+
+### **CSV Columns Explained**
+
+| Column Name                                  | Description                                                                                               |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| **Algorithm**                                | The name of the causal discovery algorithm used (e.g., `pc`, `ges`, `icalingam`).                         |
+| **TPa (#)**                                  | Number of permutations (out of total) that lie in the same Markov equivalence class as the learned DAG.   |
+| **TPa (total)**                              | Total number of permutations tested for Markov equivalence.                                               |
+| **TPa (p-value)**                            | The p-value for the TPa test: probability that a random permutation is as informative as the learned DAG. |
+| **LMC (#)**                                  | Number of Local Markov Condition (LMC) violations in the learned DAG.                                     |
+| **LMC (total)**                              | Total number of LMCs tested.                                                                              |
+| **LMC (p-value)**                            | The p-value for the LMC test: probability that a random permutation has as few or fewer LMC violations.   |
+| **Placebo Refuter (p-value)**                | P-value from the Placebo Treatment Refuter (tests robustness by randomizing treatment).                   |
+| **Random Common Cause Refuter (p-value)**    | P-value from the Random Common Cause Refuter (tests robustness by adding a random confounder).            |
+| **Data Subsample Refuter (p-value)**         | P-value from the Data Subsample Refuter (tests robustness by subsampling the data).                       |
+| **Placebo Refuter (new effect)**             | The new estimated effect after applying the Placebo Treatment Refuter.                                    |
+| **Random Common Cause Refuter (new effect)** | The new estimated effect after applying the Random Common Cause Refuter.                                  |
+| **Data Subsample Refuter (new effect)**      | The new estimated effect after applying the Data Subsample Refuter.                                       |
+
+### **What Each Metric Means**
+
+#### **Algorithm**
+
+- The causal discovery method used to learn the graph structure from your data.
+
+#### **TPa (Markov Equivalence Class Test)**
+
+- **TPa (#):** How many of the random permutations of the graph structure are in the same Markov equivalence class as your learned DAG.
+- **TPa (total):** The total number of permutations tested.
+- **TPa (p-value):** The probability that a random permutation is as “informative” as your learned DAG. Lower values mean your DAG is more unique/informative.
+
+#### **LMC (Local Markov Condition Test)**
+
+- **LMC (#):** Number of local Markov conditions violated by your learned DAG (i.e., where the implied conditional independencies do not hold in the data).
+- **LMC (total):** Total number of local Markov conditions tested.
+- **LMC (p-value):** The probability that a random permutation has as few or fewer LMC violations as your learned DAG. Lower values mean your DAG fits the data’s conditional independencies better.
+
+#### **Refuters**
+
+These are robustness checks for the estimated causal effect:
+
+- **Placebo Treatment Refuter:** Randomizes the treatment variable. If the effect estimate changes drastically or the p-value is low, your original estimate may not be robust.
+- **Random Common Cause Refuter:** Adds a random confounder. If the effect estimate changes, your result may be sensitive to unobserved confounding.
+- **Data Subsample Refuter:** Repeats the estimation on a random subsample of the data. Large changes suggest instability.
+
+For each refuter:
+
+- **(p-value):** The probability that the observed effect could be due to chance under the refuter’s scenario.
+- **(new effect):** The new estimated effect after applying the refuter. Large deviations from the original effect suggest lack of robustness.
+
+### **How to Use This CSV**
+
+- **Compare algorithms:** See which algorithm produces the most robust and informative graph and effect estimate.
+- **Diagnose issues:** High LMC violations or low p-values in refuters may indicate problems with the model or data.
+- **Report results:** The CSV provides a concise, reproducible summary for publication or further analysis.
+
+---
 
 ### **5. Summary Statistics**
 
@@ -410,6 +464,24 @@ results = {
 
 ---
 
+## Pipeline Result Structure
+
+The pipeline returns a dictionary with the following structure for each algorithm:
+
+| Key                     | Type                     | Description                                                        |
+| ----------------------- | ------------------------ | ------------------------------------------------------------------ |
+| graph                   | networkx.DiGraph or None | The discovered causal graph, or None if not available              |
+| graph_refutation_res    | object or None           | Result of graph falsification/refutation (may be EvaluationResult) |
+| estimand_expression     | object or None           | The identified estimand (causal effect expression)                 |
+| effect_estimate         | object or None           | The estimated causal effect                                        |
+| estimate_refutation_res | list or None             | List of refuter results (one per refuter), or None if not run      |
+
+If multiple algorithms are run, the top-level result is a dictionary mapping algorithm names to the above structure. If an algorithm fails, its value is None or a dict with all keys set to None.
+
+This structure ensures robust downstream analysis and reporting.
+
+---
+
 ## Troubleshooting & Tips
 
 - **Missing values:** Clean or impute your data before using the pipeline.
@@ -434,3 +506,49 @@ results = {
 ## Support
 
 For questions, open an issue or contact sk@iomics.us.
+
+---
+
+## Running the Pipeline via CLI
+
+You can now run the full causal pipeline directly from the command line using the `run_pipeline.py` script. This is the easiest way to get started and automate your analyses.
+
+### Basic Usage
+
+```sh
+python run_pipeline.py --verbose
+```
+
+This will run the pipeline with default settings and print progress and results to your terminal.
+
+### CLI Arguments
+
+- `--data` : Path or URL to input data (CSV). Defaults to a sample dataset if not provided.
+- `--treatment` : Name of the treatment variable. Default: `PIP3`
+- `--outcome` : Name of the outcome variable. Default: `pmek`
+- `--algorithms` : Comma-separated list of algorithms to use (e.g., `pc,ges`). Default: `pc`
+- `--output` : Output directory for results. Default: `results_<timestamp>`
+- `--n_permutations` : Number of permutations for statistical tests. Default: `30`
+- `--confidence` : Confidence level (e.g., `0.95`). Default: `0.95`
+- `--verbose` : Print progress and results to the console.
+
+### Example: Custom Data and Settings
+
+```sh
+python run_pipeline.py --data data/mydata.csv --treatment MY_TREAT --outcome MY_OUTCOME --algorithms pc,ges --output results_test --n_permutations 10 --confidence 0.9 --verbose
+```
+
+### See All Options
+
+```sh
+python run_pipeline.py --help
+```
+
+This will print a full list of available arguments and their descriptions.
+
+### Output
+
+- Results and logs will be saved in the specified output directory.
+- Key progress and results will be printed to the terminal if `--verbose` is set.
+
+---
