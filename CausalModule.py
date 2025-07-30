@@ -1,3 +1,18 @@
+"""
+WHAT: CausalModule.py is a module for performing effect estimation with causal discovery and inference.
+WHY: It provides a structured way to discover causal relationships, estimate effects, and refute those estimates using various algorithms and methods.
+ASSUMES: Requires pandas, causallearn, dowhy, and utilities for data manipulation and causal inference. Assumes input data is in a suitable format (e.g., pandas DataFrame).
+FUTURE IMPROVEMENTS: Could include more advanced causal discovery algorithms, support for more complex prior knowledge, and enhanced error handling. *NOTE* If you can't think of anything put "See work packages"
+VARIABLES:
+- data: Input data as a pandas DataFrame.
+- discovery_algorithm: Algorithm used for causal discovery (e.g., 'pc', 'ges', 'icalingam').
+- treatment_variable: The variable representing the treatment in the causal analysis.
+- outcome_variable: The variable representing the outcome in the causal analysis.
+- treatment_value: The value of the treatment variable for effect estimation.
+- control_value: The value of the treatment variable for control in effect estimation.
+WHO: S.K.S 2025/07/28
+"""
+
 # causal-learn imports
 from causallearn.search.ConstraintBased.PC import pc
 from causallearn.search.ScoreBased.GES import ges
@@ -19,8 +34,9 @@ import networkx as nx
 nx.algorithms.d_separated = nx.algorithms.d_separation.is_d_separator
 nx.d_separated = nx.algorithms.d_separation.is_d_separator
 
+# This is for logging the pipeline intermediary outputs. 
+# I actually used AI to generate the logging code, so it might not be perfect.
 import logging
-
 logging.basicConfig(
     filename="pipeline_debug_output.txt",
     filemode="w",  # Overwrite each run; use "a" to append
