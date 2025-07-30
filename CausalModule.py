@@ -35,7 +35,7 @@ nx.algorithms.d_separated = nx.algorithms.d_separation.is_d_separator
 nx.d_separated = nx.algorithms.d_separation.is_d_separator
 
 # This is for logging the pipeline intermediary outputs. 
-# I actually used AI to generate the logging code, so it might not be perfect.
+# used AI to generate the logging code, so it might not be perfect.
 import logging
 logging.basicConfig(
     filename="pipeline_debug_output.txt",
@@ -46,6 +46,12 @@ logging.basicConfig(
 
 
 class CausalModule:
+    """
+    CausalModule is a class that encapsulates the entire causal discovery and effect estimation pipeline.
+    It allows users to input data, specify discovery algorithms, treatment and outcome variables, and perform
+    causal discovery, effect estimation, and refutation of estimates.
+    It also provides methods to handle prior knowledge and visualize results.
+    """
     def __init__(self, 
                  data = None, 
                  discovery_algorithm = None, 
@@ -53,8 +59,16 @@ class CausalModule:
                  outcome_variable = None,
                  treatment_value = None,
                  control_value = None):
+        """
+        Initialization parameters:
+            - data: Input data as a pandas DataFrame.
+            - discovery_algorithm: Algorithm used for causal discovery (e.g., 'pc', 'ges', 'icalingam').
+            - treatment_variable: The variable representing the treatment in the causal analysis.
+            - outcome_variable: The variable representing the outcome in the causal analysis.
+            - treatment_value: The value of the treatment variable for effect estimation.
+            - control_value: The value of the treatment variable for control in effect estimation.
+        """
         
-        # user input
         self.data = data
         self.discovery_algorithm = discovery_algorithm
         self.treatment_variable = treatment_variable
@@ -73,7 +87,13 @@ class CausalModule:
     # For now, the only prior knowledge that the prototype will allow is required/forbidden edges
     # pk must be of the type => {'required': [list of edges to require], 'forbidden': [list of edges to forbid]}
     def find_causal_graph(self, algo='pc', pk=None):
-        
+        """
+        Finds the causal graph using the specified discovery algorithm.
+        :param algo: The discovery algorithm to use (default is 'pc').
+        :param pk: Prior knowledge in the form of required and forbidden edges.
+        :return: The discovered causal graph as a networkx DiGraph.
+        """
+
         if self.discovery_algorithm:
             algo = self.discovery_algorithm
         
@@ -128,9 +148,23 @@ class CausalModule:
 
     # What if user already has a graph they would like to input
     def input_causal_graph(self, graph):
+        """
+        User can input their own causal graph.
+        :param graph: A networkx DiGraph representing the causal graph.
+        :return: The input causal graph.
+        """
         self.graph = graph
 
     def refute_cgm(self, n_perm=100, indep_test=gcm, cond_indep_test=gcm, apply_sugst=True, show_plt=False):
+        """
+        Refutes the discovered causal graph using permutation tests.
+        :param n_perm: Number of permutations for the refutation test (default is 100).
+        :param indep_test: Independence test to use for refutation (default is gcm).
+        :param cond_indep_test: Conditional independence test to use for refutation (default is gcm).
+        :param apply_sugst: Whether to apply suggestions to the graph after refutation (default is True).
+        :param show_plt: Whether to show the plot of the refutation results (default is False).
+        :return: The refuted causal graph.
+        """
         
         logging.info("Refuting the discovered/given causal graph")
         
@@ -151,6 +185,10 @@ class CausalModule:
         return self.graph
     
     def create_model(self):
+        """
+        Creates a DoWhy causal model from the discovered or given causal graph.
+        :return: The causal model as a dowhy CausalModel object.
+        """
         
         logging.info("Creating a causal model from the discovered/given causal graph")
         
@@ -164,6 +202,11 @@ class CausalModule:
         return self.model
 
     def identify_effect(self, method=None):
+        """
+        Identifies the effect of the treatment on the outcome variable using the causal model.
+        :param method: Method to use for effect identification (default is None, which uses the default method set by DoWhy).
+        :return: The identified estimand as a dowhy IdentifiedEstimand object.
+        """
         
         logging.info("Identifying the effect estimand of the treatment on the outcome variable")
         
@@ -190,6 +233,13 @@ class CausalModule:
         return self.estimand
     
     def estimate_effect(self, method_cat='backdoor.linear_regression', ctrl_val=None, trtm_val=None):
+        """
+        Estimates the effect of the treatment on the outcome variable using the identified estimand.
+        :param method_cat: The method category to use for effect estimation (default is 'backdoor.linear_regression').
+        :param ctrl_val: The control value for the treatment variable (default is None, which uses the control value set during initialization).
+        :param trtm_val: The treatment value for the treatment variable (default is None, which uses the treatment value set during initialization).
+        :return: The estimated effect as a dowhy EffectEstimate object.
+        """
         
         logging.info("Estimating the effect of the treatment on the outcome variable")
         
@@ -220,6 +270,13 @@ class CausalModule:
     # should give a warning to users if the estimate is to be refuted
 
     def refute_estimate(self,  method_name="ALL", placebo_type='permute', subset_fraction=0.9):
+        """
+        Refutes the estimated effect of the treatment on the outcome variable using various methods.
+        :param method_name: The method to use for refutation (default is "ALL", which applies all methods).
+        :param placebo_type: The type of placebo treatment to use for refutation (default is 'permute').
+        :param subset_fraction: The fraction of the data to use for the data subset refuter (default is 0.9).
+        :return: The refuted estimate as a dowhy RefutationResult object or a list of results if multiple methods are applied.
+        """
         
         logging.info("Refuting the estimated effect of the treatment on the outcome variable")
         
@@ -275,6 +332,10 @@ class CausalModule:
         return self.est_ref
     
     def get_all_information(self):
+        """
+        Returns all information from the causal module, including the causal graph, refutation results, estimand expression, effect estimate, and estimate refutation results.
+        :return: A dictionary containing all relevant information.
+        """
         return {'graph': self.graph, 
                 'graph_refutation_res': self.graph_ref,
                 'estimand_expression': self.estimand,
