@@ -99,35 +99,29 @@ def create_gradient_boost_regressor(**kwargs):
 def gcm(X, Y, Z=None):
     return gvm.generalised_cov_based(X, Y, Z=Z, prediction_model_X=create_gradient_boost_regressor,
                                  prediction_model_Y=create_gradient_boost_regressor)
-    
-def get_graph_properties(graph, treatment, outcome):
-    metrics = {}
-    
-    G = DAG(graph)
-    # number of nodes
-    print("==========================================")
-    metrics['num_nodes'] = len(G)
-    print(f"Number of nodes: {metrics['num_nodes']}")
-    # number of edges
-    print("==========================================")
-    metrics['num_edges'] = G.number_of_edges()
-    print(f"Number of edges: {metrics['num_edges']}")
-    # edge weights
-    print("==========================================")
-    metrics['edge_weights'] = {f"{u}->{v}": data.get('label', 1) for u, v, data in G.edges(data=True)}
-    for u, v, data in G.edges(data=True):
-        print(f"Edge: {u} -> {v}, Weight: {data.get('label', 1)}")
-    # paths from treatment to outcome
-    print("==========================================")
-    metrics['all_paths'] = list(nx.all_simple_paths(G, source=treatment, target=outcome))
-    print(f"Paths from {treatment} to {outcome}: {len(metrics['all_paths'])}")
-    for path in metrics['all_paths']:
-        print(" -> ".join(path))
-    # Markov blanket of treatment and outcome
-    print("==========================================")
-    metrics['treatment_mb'] = G.get_markov_blanket(treatment)
-    print(f"Markov blanket of {treatment}: {metrics['treatment_mb']}")
-    metrics['outcome_mb'] = G.get_markov_blanket(outcome)
-    print(f"Markov blanket of {outcome}: {metrics['outcome_mb']}")
+
+def save_graph_to_pickle(G, pkl_path):
+    """
+    Save a NetworkX graph to a pickle file.
+    """
+    import pickle
+    with open(pkl_path, "wb") as f:
+        pickle.dump(G, f)
+    print(f"Graph saved to {pkl_path}")    
+
+def load_and_visualize_graph(pkl_path, title="Causal Graph from Pickle", fig_size=(10, 10)):
+    """
+    Load a pickled networkx graph from a .pkl file and visualize it.
+    """
+    import pickle
+    import os
+    if not os.path.exists(pkl_path):
+        print(f"File not found: {pkl_path}")
+        return
+    with open(pkl_path, "rb") as f:
+        G = pickle.load(f)
+        
+    # maybe add a converting statement to convert if the graph is not in the format of a networkx graph
+    disp_graph_nx(G) 
       
     

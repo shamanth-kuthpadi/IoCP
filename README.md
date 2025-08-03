@@ -29,5 +29,6 @@ python -m pip install -r requirements.txt
 
 A boiler-plate version to run the full pipeline for a given dataset is presented in `run_effect_estimation.py`. Feel free to make changes as needed.
 
-Below is a table to showcase the function calls -- the name of the function, purpose, input, output:
+### Look at the Example Outputs
 
+In the directory are a couple csv files as well as a txt file. Take a look at these for examples of the output that are provided for further analysis.

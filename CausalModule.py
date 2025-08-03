@@ -26,6 +26,11 @@ from dowhy.gcm.falsify import falsify_graph
 from dowhy.gcm.falsify import apply_suggestions
 from dowhy import CausalModel
 
+# pgmpy imports
+from pgmpy.base import DAG
+from pgmpy.metrics import correlation_score
+from sklearn.metrics import confusion_matrix
+
 # utility imports
 from utilities.utils import *
 
@@ -34,14 +39,23 @@ import networkx as nx
 nx.algorithms.d_separated = nx.algorithms.d_separation.is_d_separator
 nx.d_separated = nx.algorithms.d_separation.is_d_separator
 
+import re
+
 # This is for logging the pipeline intermediary outputs. 
 # used AI to generate the logging code, so it might not be perfect.
 import logging
+
+# Remove all handlers associated with the root logger object (to avoid duplicate logs if re-imported)
+for handler in logging.root.handlers[:]:
+    logging.root.removeHandler(handler)
+
 logging.basicConfig(
-    filename="pipeline_debug_output.txt",
-    filemode="w",  # Overwrite each run; use "a" to append
-    level=logging.DEBUG,
-    format="%(asctime)s %(levelname)s: %(message)s"
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s: %(message)s",
+    handlers=[
+        logging.FileHandler("pipeline_output.txt", mode="w"),
+        logging.StreamHandler()  # This sends logs to the console
+    ]
 )
 
 
@@ -331,15 +345,229 @@ class CausalModule:
             
         return self.est_ref
     
-    def get_all_information(self):
+    def see_graph_properties(self):
         """
-        Returns all information from the causal module, including the causal graph, refutation results, estimand expression, effect estimate, and estimate refutation results.
-        :return: A dictionary containing all relevant information.
+        Extracts properties from the causal graph.
+        :param graph: The causal graph as a networkx DiGraph.
+        :param treatment: The treatment variable in the graph.
+        :param outcome: The outcome variable in the graph.
+        :return: A dictionary containing various properties of the graph.
         """
-        return {'graph': self.graph, 
-                'graph_refutation_res': self.graph_ref,
-                'estimand_expression': self.estimand,
-                'effect_estimate': self.estimate,
-                'estimate_refutation_res': self.est_ref
-                }
+        graph = self.graph
+        treatment = self.treatment_variable
+        outcome = self.outcome_variable
+        
+        metrics = {}
+        
+        G = DAG(graph)
+        # number of nodes
+        logging.info("==========================================")
+        metrics['num_nodes'] = len(G)
+        logging.info(f"Number of nodes: {metrics['num_nodes']}")
+        # number of edges
+        logging.info("==========================================")
+        metrics['num_edges'] = G.number_of_edges()
+        logging.info(f"Number of edges: {metrics['num_edges']}")
+        # edge weights
+        logging.info("==========================================")
+        metrics['edge_weights'] = {f"{u}->{v}": data.get('label', 1) for u, v, data in G.edges(data=True)}
+        for u, v, data in G.edges(data=True):
+            logging.info(f"Edge: {u} -> {v}, Weight: {data.get('label', 1)}")
+        # paths from treatment to outcome
+        logging.info("==========================================")
+        metrics['all_paths'] = list(nx.all_simple_paths(G, source=treatment, target=outcome))
+        logging.info(f"Paths from {treatment} [treatment] to {outcome} [outcome]: {len(metrics['all_paths'])}")
+        for path in metrics['all_paths']:
+            logging.info(" -> ".join(path))
+        # Markov blanket of treatment and outcome
+        logging.info("==========================================")
+        metrics['treatment_mb'] = G.get_markov_blanket(treatment)
+        logging.info(f"Markov blanket of {treatment}: {metrics['treatment_mb']}")
+        metrics['outcome_mb'] = G.get_markov_blanket(outcome)
+        logging.info(f"Markov blanket of {outcome}: {metrics['outcome_mb']}")
+        
+        return metrics
+    
+    def see_graph(self):
+        """
+        Visualizes the causal graph.
+        :return: None
+        """
+        if self.graph is not None:
+            disp_graph_nx(self.graph)
+        else:
+            logging.warning("No causal graph available to visualize.")
+        
+    def _extract_graph_refutation_metrics(self, graph_ref_str):
+        """
+        Extracts metrics from the graph refutation result string.
+        :param graph_ref_str: The graph refutation result string.
+        :return: A tuple containing the number of informative TPA, total TPA, p-value for TPA, number of violated LMCs, total LMCs, and p-value for LMCs.
+        """
+        if not isinstance(graph_ref_str, str):
+            graph_ref_str = str(graph_ref_str)
+            
+        tpa_match = re.search(r"informative because (\d+) / (\d+).*?\(p-value: ([0-9.]+)\)", graph_ref_str, re.DOTALL)
+        lmc_match = re.search(r"violates (\d+)/(\d+) LMCs.*?\(p-value: ([0-9.]+)\)", graph_ref_str, re.DOTALL)
+        tpa_num, tpa_total, tpa_p = (tpa_match.group(1), tpa_match.group(2), tpa_match.group(3)) if tpa_match else (None, None, None)
+        lmc_num, lmc_total, lmc_p = (lmc_match.group(1), lmc_match.group(2), lmc_match.group(3)) if lmc_match else (None, None, None)
+        return tpa_num, tpa_total, tpa_p, lmc_num, lmc_total, lmc_p
+    
+    def _extract_graph_quality_score(self, graph, data, test='pearsonr', significance_level=0.05, score=confusion_matrix):
+        """
+        Extracts the graph quality score based on the specified test and significance level.
+        :param graph: The causal graph as a networkx DiGraph.
+        :param data: The data used for testing the graph quality.
+        :param test: The statistical test to use (default is 'pearsonr').
+        :param significance_level: The significance level for the test (default is 0.05).
+        :param score: The scoring function to use (default is confusion_matrix).
+        :return: The graph quality score.
+        """
+        # Implement the logic to calculate the graph quality score
+        # This is a placeholder implementation
+        pggraph = DAG(graph)
 
+        return correlation_score(pggraph, data, test, significance_level, score)
+    
+    def see_graph_quality_score(self):
+        """
+        Shows the graph quality score/measure
+        :return: None
+        """
+        if self.graph is not None:
+            score = self._extract_graph_quality_score(self.graph, self.data)
+            logging.info(f"Graph Quality Score: {score}")
+        else:
+            logging.warning("No causal graph available to visualize quality score.")
+    
+    def see_graph_refutation(self):
+        """
+        Shows the graph refutation results.
+        :return: None
+        """
+        if self.graph_ref is not None:
+            tpa_num, tpa_total, tpa_p, lmc_num, lmc_total, lmc_p = self._extract_graph_refutation_metrics(self.graph_ref)
+            logging.info(f"Graph refutation metrics: TPA: {tpa_num}/{tpa_total} (p-value: {tpa_p}), LMC: {lmc_num}/{lmc_total} (p-value: {lmc_p})")
+        else:
+            logging.warning("No graph refutation available to see.")
+    
+    def _extract_refuter_metrics(self, refuter_result):
+        """
+        Extracts metrics from the refuter result string.
+        :param refuter_result: The refuter result string.
+        :return: A tuple containing the p-value and new effect.
+        """
+        if not refuter_result:
+            return None, None
+        if not isinstance(refuter_result, str):
+            refuter_result = str(refuter_result)
+
+        # p value
+        pval_match = re.search(r"p value:([0-9.eE+-]+)", refuter_result)
+        pval = pval_match.group(1).strip() if pval_match else None
+        # new effect
+        neweff_match = re.search(r"New effect:([0-9.eE+-]+)", refuter_result)
+        neweff = neweff_match.group(1).strip() if neweff_match else None
+        return pval, neweff 
+
+    def see_estimate_refutation(self):
+        """
+        Shows the estimate refutation results.
+        :return: None
+        """
+        if self.est_ref is not None:
+            if isinstance(self.est_ref, list):
+                for ref in self.est_ref:
+                    pval, neweff = self._extract_refuter_metrics(ref)
+                    logging.info(f"Refutation result: p-value: {pval}, New effect: {neweff}")
+            else:
+                pval, neweff = self._extract_refuter_metrics(self.est_ref)
+                logging.info(f"Refutation result: p-value: {pval}, New effect: {neweff}")
+        else:
+            logging.warning("No estimate refutation available to see.")
+    
+    def _extract_effect_estimation(self, estimate_obj):
+        """
+        Extracts the effect estimation metrics from the estimate object.
+        :param estimate_obj: The effect estimate object from DoWhy.
+        :return: A dictionary containing the effect estimate metrics.
+        """
+        estimate_metrics = {
+                'Effect Estimate': estimate_obj.value,
+                'Realized Estimand Expression': estimate_obj.realized_estimand_expr,
+                'Treatment Value': estimate_obj.treatment_value,
+                'Control Value': estimate_obj.control_value,
+            }
+        
+        return estimate_metrics
+    
+    def see_effect_estimation(self):
+        """
+        Visualizes the effect estimation results.
+        :return: None
+        """
+        if self.estimate is not None:
+            estimate_metrics = self._extract_effect_estimation(self.estimate)
+            logging.info(f"Effect Estimate: {estimate_metrics['Effect Estimate']}")
+            logging.info(f"Realized Estimand Expression: {estimate_metrics['Realized Estimand Expression']}")
+            logging.info(f"Treatment Value: {estimate_metrics['Treatment Value']}")
+            logging.info(f"Control Value: {estimate_metrics['Control Value']}")
+        else:
+            logging.warning("No effect estimation available to see.")
+        
+    
+    def save_into_csv(self, csv_path):
+        """
+        Saves the discovered causal graph into a CSV file.
+        :param csv_path: Path to save the CSV file.
+        """
+        # Save the graph properties into a CSV file
+        if self.graph is not None:
+            metrics = self.see_graph_properties()
+            metrics_df = pd.DataFrame([metrics])
+            metrics_df.to_csv(csv_path.replace('.csv', '_graph_properties.csv'), index=False)
+            logging.info(f"Graph properties saved to {csv_path}")
+        else:
+            logging.warning("No causal graph available to save properties.")
+        
+        # Save the graph refutation metrics into a CSV file
+        if self.graph_ref is not None:
+            tpa_num, tpa_total, tpa_p, lmc_num, lmc_total, lmc_p = self._extract_graph_refutation_metrics(self.graph_ref)
+            ref_metrics = {
+                'TPA': f"{tpa_num}/{tpa_total}",
+                'TPA p-value': tpa_p,
+                'LMC': f"{lmc_num}/{lmc_total}",
+                'LMC p-value': lmc_p
+            }
+            ref_df = pd.DataFrame([ref_metrics])
+            ref_df.to_csv(csv_path.replace('.csv', '_graph_refutation.csv'), index=False)
+            logging.info(f"Graph refutation metrics saved to {csv_path.replace('.csv', '_graph_refutation.csv')}")
+        
+        # Save the graph quality score into a CSV file
+        if self.graph is not None:
+            score = self._extract_graph_quality_score(self.graph, self.data)
+            score_df = pd.DataFrame({'Graph Quality Score': [score]})
+            score_df.to_csv(csv_path.replace('.csv', '_graph_quality_score.csv'), index=False)
+            logging.info(f"Graph quality score saved to {csv_path.replace('.csv', '_graph_quality_score.csv')}")
+        
+        # Save the effect estimate into a CSV file
+        if self.estimate is not None:
+            estimate_metrics = self._extract_effect_estimation(self.estimate)
+            est_df = pd.DataFrame([estimate_metrics])
+            est_df.to_csv(csv_path.replace('.csv', '_effect_estimate.csv'), index=False)
+            logging.info(f"Effect estimate saved to {csv_path.replace('.csv', '_effect_estimate.csv')}")
+        
+        # Save the estimate refutation metrics into a CSV file
+        if self.est_ref is not None:
+            if isinstance(self.est_ref, list):
+                ref_results = []
+                for ref in self.est_ref:
+                    pval, neweff = self._extract_refuter_metrics(ref)
+                    ref_results.append({'p-value': pval, 'New effect': neweff})
+                ref_df = pd.DataFrame(ref_results)
+            else:
+                pval, neweff = self._extract_refuter_metrics(self.est_ref)
+                ref_df = pd.DataFrame([{'p-value': pval, 'New effect': neweff}])
+            ref_df.to_csv(csv_path.replace('.csv', '_estimate_refutation.csv'), index=False)
+            logging.info(f"Estimate refutation metrics saved to {csv_path.replace('.csv', '_estimate_refutation.csv')}")
+        
