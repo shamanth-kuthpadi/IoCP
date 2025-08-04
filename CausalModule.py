@@ -25,6 +25,10 @@ import dowhy.gcm.falsify
 from dowhy.gcm.falsify import falsify_graph
 from dowhy.gcm.falsify import apply_suggestions
 from dowhy import CausalModel
+from dowhy.gcm import ProbabilisticCausalModel
+from dowhy.gcm import InvertibleStructuralCausalModel
+from dowhy.gcm import fit
+from dowhy.gcm import auto, interventional_samples, counterfactual_samples
 
 # pgmpy imports
 from pgmpy.base import DAG
@@ -40,6 +44,7 @@ nx.algorithms.d_separated = nx.algorithms.d_separation.is_d_separator
 nx.d_separated = nx.algorithms.d_separation.is_d_separator
 
 import re
+import os
 
 # This is for logging the pipeline intermediary outputs. 
 # used AI to generate the logging code, so it might not be perfect.
@@ -48,16 +53,17 @@ import logging
 # Remove all handlers associated with the root logger object (to avoid duplicate logs if re-imported)
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
+    
+os.makedirs("outputs", exist_ok=True)
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s: %(message)s",
     handlers=[
-        logging.FileHandler("pipeline_output.txt", mode="w"),
+        logging.FileHandler("outputs/pipeline_output.txt", mode="w"),
         logging.StreamHandler()  # This sends logs to the console
     ]
 )
-
 
 class CausalModule:
     """
@@ -516,21 +522,24 @@ class CausalModule:
             logging.warning("No effect estimation available to see.")
         
     
-    def save_into_csv(self, csv_path):
+    def save_into_csv(self, dir_path='outputs/results'):
         """
-        Saves the discovered causal graph into a CSV file.
-        :param csv_path: Path to save the CSV file.
+        Saves various causal inference outputs into CSV files in the specified directory.
+        :param dir_path: Directory to save the CSV files.
         """
+        os.makedirs(dir_path, exist_ok=True)
+
         # Save the graph properties into a CSV file
         if self.graph is not None:
             metrics = self.see_graph_properties()
             metrics_df = pd.DataFrame([metrics])
-            metrics_df.to_csv(csv_path.replace('.csv', '_graph_properties.csv'), index=False)
-            logging.info(f"Graph properties saved to {csv_path}")
+            path = os.path.join(dir_path, 'graph_properties.csv')
+            metrics_df.to_csv(path, index=False)
+            logging.info(f"Graph properties saved to {path}")
         else:
             logging.warning("No causal graph available to save properties.")
-        
-        # Save the graph refutation metrics into a CSV file
+
+        # Save the graph refutation metrics
         if self.graph_ref is not None:
             tpa_num, tpa_total, tpa_p, lmc_num, lmc_total, lmc_p = self._extract_graph_refutation_metrics(self.graph_ref)
             ref_metrics = {
@@ -540,24 +549,27 @@ class CausalModule:
                 'LMC p-value': lmc_p
             }
             ref_df = pd.DataFrame([ref_metrics])
-            ref_df.to_csv(csv_path.replace('.csv', '_graph_refutation.csv'), index=False)
-            logging.info(f"Graph refutation metrics saved to {csv_path.replace('.csv', '_graph_refutation.csv')}")
-        
-        # Save the graph quality score into a CSV file
+            path = os.path.join(dir_path, 'graph_refutation.csv')
+            ref_df.to_csv(path, index=False)
+            logging.info(f"Graph refutation metrics saved to {path}")
+
+        # Save the graph quality score
         if self.graph is not None:
             score = self._extract_graph_quality_score(self.graph, self.data)
             score_df = pd.DataFrame({'Graph Quality Score': [score]})
-            score_df.to_csv(csv_path.replace('.csv', '_graph_quality_score.csv'), index=False)
-            logging.info(f"Graph quality score saved to {csv_path.replace('.csv', '_graph_quality_score.csv')}")
-        
-        # Save the effect estimate into a CSV file
+            path = os.path.join(dir_path, 'graph_quality_score.csv')
+            score_df.to_csv(path, index=False)
+            logging.info(f"Graph quality score saved to {path}")
+
+        # Save the effect estimate
         if self.estimate is not None:
             estimate_metrics = self._extract_effect_estimation(self.estimate)
             est_df = pd.DataFrame([estimate_metrics])
-            est_df.to_csv(csv_path.replace('.csv', '_effect_estimate.csv'), index=False)
-            logging.info(f"Effect estimate saved to {csv_path.replace('.csv', '_effect_estimate.csv')}")
-        
-        # Save the estimate refutation metrics into a CSV file
+            path = os.path.join(dir_path, 'effect_estimate.csv')
+            est_df.to_csv(path, index=False)
+            logging.info(f"Effect estimate saved to {path}")
+
+        # Save the estimate refutation metrics
         if self.est_ref is not None:
             if isinstance(self.est_ref, list):
                 ref_results = []
@@ -568,6 +580,53 @@ class CausalModule:
             else:
                 pval, neweff = self._extract_refuter_metrics(self.est_ref)
                 ref_df = pd.DataFrame([{'p-value': pval, 'New effect': neweff}])
-            ref_df.to_csv(csv_path.replace('.csv', '_estimate_refutation.csv'), index=False)
-            logging.info(f"Estimate refutation metrics saved to {csv_path.replace('.csv', '_estimate_refutation.csv')}")
+            path = os.path.join(dir_path, 'estimate_refutation.csv')
+            ref_df.to_csv(path, index=False)
+            logging.info(f"Estimate refutation metrics saved to {path}")
+            
+    # "when performing interventions, we look into the future, for counterfactuals we look into an alternative past"
+    
+    # https://www.pywhy.org/dowhy/v0.11/user_guide/causal_tasks/what_if/interventions.html    
+    def simulate_intervention(self, variable_to_intervene, intervention_value, num_samples_to_draw=100):
+        """
+        Simulates an intervention on a specified variable and returns samples from the interventional distribution.
+        :param variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
+        :param intervention_value: The value to set for the intervention.
+        :param num_samples_to_draw: The number of samples to draw from the interventional distribution (default is 100).
+        :return: Samples from the interventional distribution as a pandas DataFrame.
+        """
+        if variable_to_intervene is None:
+            variable_to_intervene = self.treatment_variable
         
+        causal_model = ProbabilisticCausalModel(self.graph)
+        auto.assign_causal_mechanisms(causal_model, self.data)
+        fit(causal_model, self.data)
+        samples = interventional_samples(
+            causal_model,
+            {variable_to_intervene: lambda x: intervention_value},
+            num_samples_to_draw=num_samples_to_draw
+        )
+        
+        return samples
+    
+    # https://www.pywhy.org/dowhy/v0.11/user_guide/causal_tasks/what_if/counterfactuals.html
+    def compute_counterfactual(self, variable_to_intervene, intervention_value, observed_data=None):
+        """
+        Computes counterfactual samples given an intervention on a specified variable.
+        :param variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
+        :param intervention_value: The value to set for the intervention.
+        :param observed_data: The observed data to condition on (default is None, which uses the original data).
+        :return: Counterfactual samples as a pandas DataFrame."""
+        if variable_to_intervene is None:
+            variable_to_intervene = self.treatment_variable
+        
+        causal_model = InvertibleStructuralCausalModel(self.graph)
+        auto.assign_causal_mechanisms(causal_model, self.data)
+        fit(causal_model, self.data)
+        samples = counterfactual_samples(
+            causal_model,
+            {variable_to_intervene: lambda x: intervention_value},
+            observed_data = observed_data if observed_data is not None else self.data,
+        )
+        
+        return samples

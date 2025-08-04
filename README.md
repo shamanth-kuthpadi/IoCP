@@ -29,6 +29,21 @@ python -m pip install -r requirements.txt
 
 A boiler-plate version to run the full pipeline for a given dataset is presented in `run_effect_estimation.py`. Feel free to make changes as needed.
 
-### Look at the Example Outputs
+### Pipeline Outputs
 
-In the directory are a couple csv files as well as a txt file. Take a look at these for examples of the output that are provided for further analysis.
+There are two main varieties of outputs that come as a result of running the pipeline:
+
+1. `outputs/pipeline_output.txt`: All the intermediary logged information about the pipeline are stored in this file, note that this file gets overwritten at each run
+2. `outputs/results/*.csv`
+   - `effect_estimate.csv`:  
+     Contains the estimated causal effect(s) for the specified treatment and outcome variables, along with the realized estimand estimand and relevant metadata.
+   - `estimate_refutation.csv`:  
+     Summarizes the results of robustness checks and refutation tests performed on the estimated effect, helping to assess the reliability of the findings.
+   - `graph_properties.csv`:  
+     Stores information about the discovered or provided causal graph, including node and edge details.
+   - `graph_quality.csv`:
+     Contains the confusion matrix as a result of the graph quality metric that is obtained from pgmpy -- **this is the main metric to measure graph quality for now**.
+   - `graph_refutation.csv`:
+     Stores the outputs of the graph refuter that is displayed from DoWhy (TPA, TPA pval, LMC, LMC pval)
+
+These outputs are generated automatically after running the pipeline and can be found in the `outputs/` directory.

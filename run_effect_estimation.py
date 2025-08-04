@@ -65,10 +65,9 @@ def run_effect_estimation(data, discovery_algorithm, treatment_variable, outcome
     causal_module.see_effect_estimation()
     # Getting effect estimation refutation metrics
     causal_module.see_estimate_refutation()
-    # Save results to CSV
-    csv_path = "pr.csv"
-    causal_module.save_into_csv(csv_path)
-
+    # Save results to CSV (default directory is 'outputs/results')
+    causal_module.save_into_csv()
+    
 def __main__():
     data_url = "https://raw.githubusercontent.com/FenTechSolutions/CausalDiscoveryToolbox/master/cdt/data/resources/cyto_full_data.csv"
     data = pd.read_csv(data_url) 
