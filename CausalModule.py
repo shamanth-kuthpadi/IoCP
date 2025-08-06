@@ -104,7 +104,11 @@ class CausalModule:
         self.estimand = None
         self.estimate = None
         self.est_ref = None
-    
+        self.interventional_samples = None
+        
+        self.results = {}  # Initialize results dictionary to store outputs
+        logging.info("CausalModule initialized with provided parameters.")
+        
     # For now, the only prior knowledge that the prototype will allow is required/forbidden edges
     # pk must be of the type => {'required': [list of edges to require], 'forbidden': [list of edges to forbid]}
     def find_causal_graph(self, algo='pc', pk=None):
@@ -521,69 +525,6 @@ class CausalModule:
             logging.info(f"Control Value: {estimate_metrics['Control Value']}")
         else:
             logging.warning("No effect estimation available to see.")
-        
-    
-    def save_into_csv(self, dir_path='outputs/results'):
-        """
-        Saves various causal inference outputs into CSV files in the specified directory.
-        :param dir_path: Directory to save the CSV files.
-        """
-        os.makedirs(dir_path, exist_ok=True)
-
-        # Save the graph properties into a CSV file
-        if self.graph is not None:
-            metrics = self.see_graph_properties()
-            metrics_df = pd.DataFrame([metrics])
-            path = os.path.join(dir_path, 'graph_properties.csv')
-            metrics_df.to_csv(path, index=False)
-            logging.info(f"Graph properties saved to {path}")
-        else:
-            logging.warning("No causal graph available to save properties.")
-
-        # Save the graph refutation metrics
-        if self.graph_ref is not None:
-            tpa_num, tpa_total, tpa_p, lmc_num, lmc_total, lmc_p = self._extract_graph_refutation_metrics(self.graph_ref)
-            ref_metrics = {
-                'TPA': f"{tpa_num}/{tpa_total}",
-                'TPA p-value': tpa_p,
-                'LMC': f"{lmc_num}/{lmc_total}",
-                'LMC p-value': lmc_p
-            }
-            ref_df = pd.DataFrame([ref_metrics])
-            path = os.path.join(dir_path, 'graph_refutation.csv')
-            ref_df.to_csv(path, index=False)
-            logging.info(f"Graph refutation metrics saved to {path}")
-
-        # Save the graph quality score
-        if self.graph is not None:
-            score = self._extract_graph_quality_score(self.graph, self.data)
-            score_df = pd.DataFrame({'Graph Quality Score': [score]})
-            path = os.path.join(dir_path, 'graph_quality_score.csv')
-            score_df.to_csv(path, index=False)
-            logging.info(f"Graph quality score saved to {path}")
-
-        # Save the effect estimate
-        if self.estimate is not None:
-            estimate_metrics = self._extract_effect_estimation(self.estimate)
-            est_df = pd.DataFrame([estimate_metrics])
-            path = os.path.join(dir_path, 'effect_estimate.csv')
-            est_df.to_csv(path, index=False)
-            logging.info(f"Effect estimate saved to {path}")
-
-        # Save the estimate refutation metrics
-        if self.est_ref is not None:
-            if isinstance(self.est_ref, list):
-                ref_results = []
-                for ref in self.est_ref:
-                    pval, neweff = self._extract_refuter_metrics(ref)
-                    ref_results.append({'p-value': pval, 'New effect': neweff})
-                ref_df = pd.DataFrame(ref_results)
-            else:
-                pval, neweff = self._extract_refuter_metrics(self.est_ref)
-                ref_df = pd.DataFrame([{'p-value': pval, 'New effect': neweff}])
-            path = os.path.join(dir_path, 'estimate_refutation.csv')
-            ref_df.to_csv(path, index=False)
-            logging.info(f"Estimate refutation metrics saved to {path}")
             
     # "when performing interventions, we look into the future, for counterfactuals we look into an alternative past"
     
@@ -608,26 +549,94 @@ class CausalModule:
             num_samples_to_draw=num_samples_to_draw
         )
         
+        self.interventional_samples = samples
+        
         return samples
     
     # https://www.pywhy.org/dowhy/v0.11/user_guide/causal_tasks/what_if/counterfactuals.html
-    def compute_counterfactual(self, variable_to_intervene, intervention_value, observed_data=None):
+    # def compute_counterfactual(self, variable_to_intervene, intervention_value, observed_data=None):
+    #     """
+    #     Computes counterfactual samples given an intervention on a specified variable.
+    #     :param variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
+    #     :param intervention_value: The value to set for the intervention.
+    #     :param observed_data: The observed data to condition on (default is None, which uses the original data).
+    #     :return: Counterfactual samples as a pandas DataFrame."""
+    #     if variable_to_intervene is None:
+    #         variable_to_intervene = self.treatment_variable
+        
+    #     causal_model = InvertibleStructuralCausalModel(self.graph)
+    #     auto.assign_causal_mechanisms(causal_model, self.data)
+    #     fit(causal_model, self.data)
+    #     samples = counterfactual_samples(
+    #         causal_model,
+    #         {variable_to_intervene: lambda x: intervention_value},
+    #         observed_data = observed_data if observed_data is not None else self.data,
+    #     )
+        
+    #     return samples
+
+    def store_results(self, dir_path='outputs/results'):
         """
-        Computes counterfactual samples given an intervention on a specified variable.
-        :param variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
-        :param intervention_value: The value to set for the intervention.
-        :param observed_data: The observed data to condition on (default is None, which uses the original data).
-        :return: Counterfactual samples as a pandas DataFrame."""
-        if variable_to_intervene is None:
-            variable_to_intervene = self.treatment_variable
+        Stores various causal inference outputs as a Python object
+        in the instance and also saves them to CSV files.
         
-        causal_model = InvertibleStructuralCausalModel(self.graph)
-        auto.assign_causal_mechanisms(causal_model, self.data)
-        fit(causal_model, self.data)
-        samples = counterfactual_samples(
-            causal_model,
-            {variable_to_intervene: lambda x: intervention_value},
-            observed_data = observed_data if observed_data is not None else self.data,
-        )
+        :param dir_path: Directory to save the CSV files.
+        """
+        os.makedirs(dir_path, exist_ok=True)
+        self.results = {}  # Reset or initialize
+
+        # Graph properties
+        if self.graph is not None:
+            metrics = self.see_graph_properties()
+            self.results['graph_properties'] = metrics
+            pd.DataFrame([metrics]).to_csv(os.path.join(dir_path, 'graph_properties.csv'), index=False)
+            logging.info(f"Graph properties saved to {os.path.join(dir_path, 'graph_properties.csv')}")
+        else:
+            logging.warning("No causal graph available to save properties.")
+
+        # Graph refutation metrics
+        if self.graph_ref is not None:
+            tpa_num, tpa_total, tpa_p, lmc_num, lmc_total, lmc_p = self._extract_graph_refutation_metrics(self.graph_ref)
+            ref_metrics = {
+                'TPA': f"{tpa_num}/{tpa_total}",
+                'TPA p-value': tpa_p,
+                'LMC': f"{lmc_num}/{lmc_total}",
+                'LMC p-value': lmc_p
+            }
+            self.results['graph_refutation'] = ref_metrics
+            pd.DataFrame([ref_metrics]).to_csv(os.path.join(dir_path, 'graph_refutation.csv'), index=False)
+            logging.info(f"Graph refutation metrics saved to {os.path.join(dir_path, 'graph_refutation.csv')}")
+
+        # Graph quality score
+        if self.graph is not None:
+            score = self._extract_graph_quality_score(self.graph, self.data)
+            self.results['graph_quality_score'] = score
+            pd.DataFrame({'Graph Quality Score': [score]}).to_csv(os.path.join(dir_path, 'graph_quality_score.csv'), index=False)
+            logging.info(f"Graph quality score saved to {os.path.join(dir_path, 'graph_quality_score.csv')}")
+
+        # Effect estimate
+        if self.estimate is not None:
+            estimate_metrics = self._extract_effect_estimation(self.estimate)
+            self.results['effect_estimate'] = estimate_metrics
+            pd.DataFrame([estimate_metrics]).to_csv(os.path.join(dir_path, 'effect_estimate.csv'), index=False)
+            logging.info(f"Effect estimate saved to {os.path.join(dir_path, 'effect_estimate.csv')}")
+
+        # Estimate refutation metrics
+        if self.est_ref is not None:
+            if isinstance(self.est_ref, list):
+                ref_results = []
+                for ref in self.est_ref:
+                    pval, neweff = self._extract_refuter_metrics(ref)
+                    ref_results.append({'p-value': pval, 'New effect': neweff})
+            else:
+                pval, neweff = self._extract_refuter_metrics(self.est_ref)
+                ref_results = [{'p-value': pval, 'New effect': neweff}]
+            self.results['estimate_refutation'] = ref_results
+            pd.DataFrame(ref_results).to_csv(os.path.join(dir_path, 'estimate_refutation.csv'), index=False)
+            logging.info(f"Estimate refutation metrics saved to {os.path.join(dir_path, 'estimate_refutation.csv')}")
         
-        return samples
+        if self.interventional_samples is not None:
+            self.results['interventional_samples'] = self.interventional_samples
+            self.interventional_samples.to_csv(os.path.join(dir_path, 'interventional_samples.csv'), index=False)
+            logging.info(f"Interventional samples saved to {os.path.join(dir_path, 'interventional_samples.csv')}")
+
