@@ -45,6 +45,7 @@ nx.d_separated = nx.algorithms.d_separation.is_d_separator
 
 import re
 import os
+import pickle
 
 # This is for logging the pipeline intermediary outputs. 
 # used AI to generate the logging code, so it might not be perfect.
@@ -169,7 +170,7 @@ class CausalModule:
     # What if user already has a graph they would like to input
     def input_causal_graph(self, graph):
         """
-        User can input their own causal graph.
+        User can input their own causal graph. 
         :param graph: A networkx DiGraph representing the causal graph.
         :return: The input causal graph.
         """

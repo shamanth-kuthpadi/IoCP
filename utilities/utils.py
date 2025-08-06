@@ -1,6 +1,8 @@
 import pandas as pd
 import networkx as nx
 import numpy as np
+import pickle
+import dill
 from causallearn.utils.GraphUtils import GraphUtils
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
@@ -123,5 +125,26 @@ def load_and_visualize_graph(pkl_path, title="Causal Graph from Pickle", fig_siz
         
     # maybe add a converting statement to convert if the graph is not in the format of a networkx graph
     disp_graph_nx(G) 
+
+def load_instance_from_pickle(file_path='outputs/causal_module_instance.pkl'):
+    """
+    Loads a CausalModule instance from a pickle file.
+    :param file_path: The path to the pickle file.
+    :return: The loaded CausalModule instance.
+    """
+    with open(file_path, 'rb') as f:
+        instance = dill.load(f)
+    print(f"CausalModule instance loaded from {file_path}")
+    return instance
+
+def save_instance_to_pickle(instance, file_path):
+    """
+    Saves a CausalModule instance to a pickle file.
+    :param instance: The CausalModule instance to save.
+    :param file_path: The path to save the pickle file.
+    """
+    with open(file_path, 'wb') as f:
+        dill.dump(instance, f)
+    print(f"CausalModule instance saved to {file_path}")
       
     
