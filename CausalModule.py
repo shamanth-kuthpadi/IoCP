@@ -113,7 +113,7 @@ class CausalModule:
     # pk must be of the type => {'required': [list of edges to require], 'forbidden': [list of edges to forbid]}
     def find_causal_graph(self, algo='pc', pk=None):
         """
-        Finds the causal graph using the specified discovery algorithm.
+        Finds the causal graph using the specified discovery algorithm. Requires that the data is provided beforehand.
         :param algo: The discovery algorithm to use (default is 'pc').
         :param pk: Prior knowledge in the form of required and forbidden edges.
         :return: The discovered causal graph as a networkx DiGraph.
@@ -175,21 +175,24 @@ class CausalModule:
     def input_causal_graph(self, graph):
         """
         User can input their own causal graph. 
+        To be used as an alternative to find_causal_graph (in case the user alread has their own domain knowleedge)
         :param graph: A networkx DiGraph representing the causal graph.
         :return: The input causal graph.
         """
         self.graph = graph
 
-    def refute_cgm(self, n_perm=100, indep_test=gcm, cond_indep_test=gcm, apply_sugst=True, show_plt=False):
+    def refute_cgm(self, n_perm=100, apply_sugst=True, show_plt=False):
         """
         Refutes the discovered causal graph using permutation tests.
+        Requires that a causal graph is already discovered (using find_causal_graph) or provided (input_causal_graph).
         :param n_perm: Number of permutations for the refutation test (default is 100).
-        :param indep_test: Independence test to use for refutation (default is gcm).
-        :param cond_indep_test: Conditional independence test to use for refutation (default is gcm).
         :param apply_sugst: Whether to apply suggestions to the graph after refutation (default is True).
         :param show_plt: Whether to show the plot of the refutation results (default is False).
         :return: The refuted causal graph.
         """
+        
+        indep_test = gcm
+        cond_indep_test = gcm
         
         logging.info("Refuting the discovered/given causal graph")
         
@@ -212,6 +215,7 @@ class CausalModule:
     def create_model(self):
         """
         Creates a DoWhy causal model from the discovered or given causal graph.
+        To create a causal model using DoWhy, the graph must be a valid networkx DiGraph.
         :return: The causal model as a dowhy CausalModel object.
         """
         
@@ -297,6 +301,7 @@ class CausalModule:
     def refute_estimate(self,  method_name="ALL", placebo_type='permute', subset_fraction=0.9):
         """
         Refutes the estimated effect of the treatment on the outcome variable using various methods.
+        Requires that an effect has been estimated using estimate_effect.
         :param method_name: The method to use for refutation (default is "ALL", which applies all methods).
         :param placebo_type: The type of placebo treatment to use for refutation (default is 'permute').
         :param subset_fraction: The fraction of the data to use for the data subset refuter (default is 0.9).
@@ -401,7 +406,7 @@ class CausalModule:
     
     def see_graph(self):
         """
-        Visualizes the causal graph.
+        Visualizes the causal graph. Requires that a graph has already been discovered or provided.
         :return: None
         """
         if self.graph is not None:
@@ -411,7 +416,7 @@ class CausalModule:
         
     def _extract_graph_refutation_metrics(self, graph_ref_str):
         """
-        Extracts metrics from the graph refutation result string.
+        Extracts metrics from the graph refutation result string. Requires that the graph refutation is performed beforehand.
         :param graph_ref_str: The graph refutation result string.
         :return: A tuple containing the number of informative TPA, total TPA, p-value for TPA, number of violated LMCs, total LMCs, and p-value for LMCs.
         """
@@ -427,6 +432,7 @@ class CausalModule:
     def _extract_graph_quality_score(self, graph, data, test='pearsonr', significance_level=0.05, score=confusion_matrix):
         """
         Extracts the graph quality score based on the specified test and significance level.
+        This function directly uses the function from pgmpy.metrics to calculate the correlation score.
         :param graph: The causal graph as a networkx DiGraph.
         :param data: The data used for testing the graph quality.
         :param test: The statistical test to use (default is 'pearsonr').
