@@ -11,6 +11,12 @@ VARIABLES:
 - treatment_value: The value of the treatment variable for effect estimation.
 - control_value: The value of the treatment variable for control in effect estimation.
 WHO: S.K.S 2025/07/28
+
+PREREQUISITES:
+- All required packages must be installed: pandas, causallearn, dowhy, pgmpy, networkx, sklearn
+- Data must be in pandas DataFrame format with appropriate column names
+- Treatment and outcome variables must exist as columns in the data
+- For effect estimation, treatment_value and control_value should be specified
 """
 
 # causal-learn imports
@@ -72,6 +78,12 @@ class CausalModule:
     It allows users to input data, specify discovery algorithms, treatment and outcome variables, and perform
     causal discovery, effect estimation, and refutation of estimates.
     It also provides methods to handle prior knowledge and visualize results.
+    
+    PREREQUISITES:
+    - Data must be provided during initialization or before calling discovery methods
+    - Treatment and outcome variables must be specified before effect estimation
+    - Treatment and control values should be set for effect estimation
+    - All required packages (pandas, causallearn, dowhy, pgmpy, networkx, sklearn) must be installed
     """
     def __init__(self, 
                  data = None, 
@@ -81,7 +93,14 @@ class CausalModule:
                  treatment_value = None,
                  control_value = None):
         """
-        Initialization parameters:
+        Initializes the CausalModule with data and parameters for causal analysis.
+        
+        PREREQUISITES:
+        - Data should be a pandas DataFrame with appropriate column names
+        - Treatment and outcome variables should exist as columns in the data
+        - Treatment and control values should be valid values for the treatment variable
+        
+        Parameters:
             - data: Input data as a pandas DataFrame.
             - discovery_algorithm: Algorithm used for causal discovery (e.g., 'pc', 'ges', 'icalingam').
             - treatment_variable: The variable representing the treatment in the causal analysis.
@@ -104,6 +123,9 @@ class CausalModule:
         self.estimand = None
         self.estimate = None
         self.est_ref = None
+        self.graph_quality_score = None
+        self.graph_quality_summary = None
+        self.node_quality_score = None
         self.interventional_samples = None
         
         self.results = {}  # Initialize results dictionary to store outputs
@@ -113,10 +135,19 @@ class CausalModule:
     # pk must be of the type => {'required': [list of edges to require], 'forbidden': [list of edges to forbid]}
     def find_causal_graph(self, algo='pc', pk=None):
         """
-        Finds the causal graph using the specified discovery algorithm. Requires that the data is provided beforehand.
-        :param algo: The discovery algorithm to use (default is 'pc').
-        :param pk: Prior knowledge in the form of required and forbidden edges.
-        :return: The discovered causal graph as a networkx DiGraph.
+        Finds the causal graph using the specified discovery algorithm.
+        
+        PREREQUISITES:
+        - Data must be provided during initialization (self.data must not be None)
+        - Data should be a pandas DataFrame with appropriate column names
+        - If prior knowledge (pk) is provided, it must be a dictionary with 'required' and/or 'forbidden' keys
+        
+        Parameters:
+            - algo: The discovery algorithm to use (default is 'pc'). Options: 'pc', 'ges', 'icalingam'.
+            - pk: Prior knowledge in the form of required and forbidden edges. Format: {'required': [list of edges], 'forbidden': [list of edges]}.
+        
+        Returns:
+            - The discovered causal graph as a networkx DiGraph.
         """
 
         if self.discovery_algorithm:
@@ -174,21 +205,37 @@ class CausalModule:
     # What if user already has a graph they would like to input
     def input_causal_graph(self, graph):
         """
-        User can input their own causal graph. 
-        To be used as an alternative to find_causal_graph (in case the user alread has their own domain knowleedge)
-        :param graph: A networkx DiGraph representing the causal graph.
-        :return: The input causal graph.
+        Allows users to input their own causal graph as an alternative to automatic discovery.
+        
+        PREREQUISITES:
+        - Graph must be a valid networkx DiGraph
+        - Graph nodes should correspond to column names in the data
+        - Treatment and outcome variables should be present in the graph
+        
+        Parameters:
+            - graph: A networkx DiGraph representing the causal graph.
+        
+        Returns:
+            - The input causal graph.
         """
         self.graph = graph
 
     def refute_cgm(self, n_perm=100, apply_sugst=True, show_plt=False):
         """
         Refutes the discovered causal graph using permutation tests.
-        Requires that a causal graph is already discovered (using find_causal_graph) or provided (input_causal_graph).
-        :param n_perm: Number of permutations for the refutation test (default is 100).
-        :param apply_sugst: Whether to apply suggestions to the graph after refutation (default is True).
-        :param show_plt: Whether to show the plot of the refutation results (default is False).
-        :return: The refuted causal graph.
+        
+        PREREQUISITES:
+        - A causal graph must be available (call find_causal_graph or input_causal_graph first)
+        - Data must be provided and accessible
+        - Treatment and outcome variables must be specified
+        
+        Parameters:
+            - n_perm: Number of permutations for the refutation test (default is 100).
+            - apply_sugst: Whether to apply suggestions to the graph after refutation (default is True).
+            - show_plt: Whether to show the plot of the refutation results (default is False).
+        
+        Returns:
+            - The refuted causal graph.
         """
         
         indep_test = gcm
@@ -215,8 +262,15 @@ class CausalModule:
     def create_model(self):
         """
         Creates a DoWhy causal model from the discovered or given causal graph.
-        To create a causal model using DoWhy, the graph must be a valid networkx DiGraph.
-        :return: The causal model as a dowhy CausalModel object.
+        
+        PREREQUISITES:
+        - A causal graph must be available (call find_causal_graph or input_causal_graph first)
+        - Data must be provided and accessible
+        - Treatment and outcome variables must be specified
+        - Graph must be a valid networkx DiGraph compatible with DoWhy
+        
+        Returns:
+            - The causal model as a dowhy CausalModel object.
         """
         
         logging.info("Creating a causal model from the discovered/given causal graph")
@@ -233,8 +287,18 @@ class CausalModule:
     def identify_effect(self, method=None):
         """
         Identifies the effect of the treatment on the outcome variable using the causal model.
-        :param method: Method to use for effect identification (default is None, which uses the default method set by DoWhy).
-        :return: The identified estimand as a dowhy IdentifiedEstimand object.
+        
+        PREREQUISITES:
+        - A causal model must be created (call create_model first)
+        - Treatment and outcome variables must be specified
+        - The causal graph must have a valid path from treatment to outcome
+        
+        Parameters:
+            - method: Method to use for effect identification (default is None, which uses the default method set by DoWhy).
+                     Options: 'maximal-adjustment', 'minimal-adjustment', 'exhaustive-search', 'default'
+        
+        Returns:
+            - The identified estimand as a dowhy IdentifiedEstimand object.
         """
         
         logging.info("Identifying the effect estimand of the treatment on the outcome variable")
@@ -264,10 +328,19 @@ class CausalModule:
     def estimate_effect(self, method_cat='backdoor.linear_regression', ctrl_val=None, trtm_val=None):
         """
         Estimates the effect of the treatment on the outcome variable using the identified estimand.
-        :param method_cat: The method category to use for effect estimation (default is 'backdoor.linear_regression').
-        :param ctrl_val: The control value for the treatment variable (default is None, which uses the control value set during initialization).
-        :param trtm_val: The treatment value for the treatment variable (default is None, which uses the treatment value set during initialization).
-        :return: The estimated effect as a dowhy EffectEstimate object.
+        
+        PREREQUISITES:
+        - An estimand must be identified (call identify_effect first)
+        - Treatment and control values must be specified (either during initialization or as parameters)
+        - The causal model must be valid and accessible
+        
+        Parameters:
+            - method_cat: The method category to use for effect estimation (default is 'backdoor.linear_regression').
+            - ctrl_val: The control value for the treatment variable (default is None, which uses the control value set during initialization).
+            - trtm_val: The treatment value for the treatment variable (default is None, which uses the treatment value set during initialization).
+        
+        Returns:
+            - The estimated effect as a dowhy EffectEstimate object.
         """
         
         logging.info("Estimating the effect of the treatment on the outcome variable")
@@ -301,11 +374,20 @@ class CausalModule:
     def refute_estimate(self,  method_name="ALL", placebo_type='permute', subset_fraction=0.9):
         """
         Refutes the estimated effect of the treatment on the outcome variable using various methods.
-        Requires that an effect has been estimated using estimate_effect.
-        :param method_name: The method to use for refutation (default is "ALL", which applies all methods).
-        :param placebo_type: The type of placebo treatment to use for refutation (default is 'permute').
-        :param subset_fraction: The fraction of the data to use for the data subset refuter (default is 0.9).
-        :return: The refuted estimate as a dowhy RefutationResult object or a list of results if multiple methods are applied.
+        
+        PREREQUISITES:
+        - An effect must be estimated (call estimate_effect first)
+        - The causal model must be valid and accessible
+        - Data must be sufficient for the refutation methods
+        
+        Parameters:
+            - method_name: The method to use for refutation (default is "ALL", which applies all methods).
+                         Options: "placebo_treatment_refuter", "random_common_cause", "data_subset_refuter", "ALL"
+            - placebo_type: The type of placebo treatment to use for refutation (default is 'permute').
+            - subset_fraction: The fraction of the data to use for the data subset refuter (default is 0.9).
+        
+        Returns:
+            - The refuted estimate as a dowhy RefutationResult object or a list of results if multiple methods are applied.
         """
         
         logging.info("Refuting the estimated effect of the treatment on the outcome variable")
@@ -364,10 +446,19 @@ class CausalModule:
     def see_graph_properties(self):
         """
         Extracts properties from the causal graph.
-        :param graph: The causal graph as a networkx DiGraph.
-        :param treatment: The treatment variable in the graph.
-        :param outcome: The outcome variable in the graph.
-        :return: A dictionary containing various properties of the graph.
+        
+        PREREQUISITES:
+        - A causal graph must be available (call find_causal_graph or input_causal_graph first)
+        - Treatment and outcome variables must be specified
+        
+        Returns:
+            - A dictionary containing various properties of the graph including:
+              - num_nodes: Number of nodes in the graph
+              - num_edges: Number of edges in the graph
+              - edge_weights: Dictionary of edge weights
+              - all_paths: All paths from treatment to outcome
+              - treatment_mb: Markov blanket of treatment variable
+              - outcome_mb: Markov blanket of outcome variable
         """
         graph = self.graph
         treatment = self.treatment_variable
@@ -406,8 +497,13 @@ class CausalModule:
     
     def see_graph(self):
         """
-        Visualizes the causal graph. Requires that a graph has already been discovered or provided.
-        :return: None
+        Visualizes the causal graph.
+        
+        PREREQUISITES:
+        - A causal graph must be available (call find_causal_graph or input_causal_graph first)
+        
+        Returns:
+            - None (displays the graph visualization)
         """
         if self.graph is not None:
             disp_graph_nx(self.graph)
@@ -416,9 +512,18 @@ class CausalModule:
         
     def _extract_graph_refutation_metrics(self, graph_ref_str):
         """
-        Extracts metrics from the graph refutation result string. Requires that the graph refutation is performed beforehand.
-        :param graph_ref_str: The graph refutation result string.
-        :return: A tuple containing the number of informative TPA, total TPA, p-value for TPA, number of violated LMCs, total LMCs, and p-value for LMCs.
+        Extracts metrics from the graph refutation result string.
+        
+        PREREQUISITES:
+        - Graph refutation must be performed (call refute_cgm first)
+        - Graph refutation result must be available
+        
+        Parameters:
+            - graph_ref_str: The graph refutation result string.
+        
+        Returns:
+            - A tuple containing the number of informative TPA, total TPA, p-value for TPA, 
+              number of violated LMCs, total LMCs, and p-value for LMCs.
         """
         if not isinstance(graph_ref_str, str):
             graph_ref_str = str(graph_ref_str)
@@ -433,23 +538,44 @@ class CausalModule:
         """
         Extracts the graph quality score based on the specified test and significance level.
         This function directly uses the function from pgmpy.metrics to calculate the correlation score.
-        :param graph: The causal graph as a networkx DiGraph.
-        :param data: The data used for testing the graph quality.
-        :param test: The statistical test to use (default is 'pearsonr').
-        :param significance_level: The significance level for the test (default is 0.05).
-        :param score: The scoring function to use (default is confusion_matrix).
-        :return: The graph quality score.
+        
+        PREREQUISITES:
+        - A causal graph must be available
+        - Data must be provided and accessible
+        - Graph must be compatible with pgmpy DAG format
+        
+        Parameters:
+            - graph: The causal graph as a networkx DiGraph.
+            - data: The data used for testing the graph quality.
+            - test: The statistical test to use (default is 'pearsonr').
+            - significance_level: The significance level for the test (default is 0.05).
+            - score: The scoring function to use (default is confusion_matrix).
+        
+        Returns:
+            - The graph quality score.
         """
         # Implement the logic to calculate the graph quality score
         # This is a placeholder implementation
         pggraph = DAG(graph)
 
-        return correlation_score(pggraph, data, test, significance_level, score)
+        results = correlation_score(pggraph, data, test, significance_level, score, return_summary=False)
+        summary = correlation_score(pggraph, data, test, significance_level, score, return_summary=True)
+        
+        self.graph_quality_score = results
+        self.graph_quality_summary = summary
+        
+        return results
     
     def see_graph_quality_score(self):
         """
-        Shows the graph quality score/measure
-        :return: None
+        Shows the graph quality score/measure.
+        
+        PREREQUISITES:
+        - A causal graph must be available (call find_causal_graph or input_causal_graph first)
+        - Data must be provided and accessible
+        
+        Returns:
+            - None (logs the graph quality score)
         """
         if self.graph is not None:
             score = self._extract_graph_quality_score(self.graph, self.data)
@@ -460,7 +586,13 @@ class CausalModule:
     def see_graph_refutation(self):
         """
         Shows the graph refutation results.
-        :return: None
+        
+        PREREQUISITES:
+        - Graph refutation must be performed (call refute_cgm first)
+        - Graph refutation result must be available
+        
+        Returns:
+            - None (logs the graph refutation metrics)
         """
         if self.graph_ref is not None:
             tpa_num, tpa_total, tpa_p, lmc_num, lmc_total, lmc_p = self._extract_graph_refutation_metrics(self.graph_ref)
@@ -471,8 +603,16 @@ class CausalModule:
     def _extract_refuter_metrics(self, refuter_result):
         """
         Extracts metrics from the refuter result string.
-        :param refuter_result: The refuter result string.
-        :return: A tuple containing the p-value and new effect.
+        
+        PREREQUISITES:
+        - Estimate refutation must be performed (call refute_estimate first)
+        - Refuter result must be available
+        
+        Parameters:
+            - refuter_result: The refuter result string.
+        
+        Returns:
+            - A tuple containing the p-value and new effect.
         """
         if not refuter_result:
             return None, None
@@ -490,7 +630,13 @@ class CausalModule:
     def see_estimate_refutation(self):
         """
         Shows the estimate refutation results.
-        :return: None
+        
+        PREREQUISITES:
+        - Estimate refutation must be performed (call refute_estimate first)
+        - Refuter result must be available
+        
+        Returns:
+            - None (logs the estimate refutation metrics)
         """
         if self.est_ref is not None:
             if isinstance(self.est_ref, list):
@@ -506,8 +652,16 @@ class CausalModule:
     def _extract_effect_estimation(self, estimate_obj):
         """
         Extracts the effect estimation metrics from the estimate object.
-        :param estimate_obj: The effect estimate object from DoWhy.
-        :return: A dictionary containing the effect estimate metrics.
+        
+        PREREQUISITES:
+        - Effect estimation must be performed (call estimate_effect first)
+        - Estimate object must be available
+        
+        Parameters:
+            - estimate_obj: The effect estimate object from DoWhy.
+        
+        Returns:
+            - A dictionary containing the effect estimate metrics.
         """
         estimate_metrics = {
                 'Effect Estimate': estimate_obj.value,
@@ -521,7 +675,13 @@ class CausalModule:
     def see_effect_estimation(self):
         """
         Visualizes the effect estimation results.
-        :return: None
+        
+        PREREQUISITES:
+        - Effect estimation must be performed (call estimate_effect first)
+        - Estimate object must be available
+        
+        Returns:
+            - None (logs the effect estimation metrics)
         """
         if self.estimate is not None:
             estimate_metrics = self._extract_effect_estimation(self.estimate)
@@ -531,6 +691,50 @@ class CausalModule:
             logging.info(f"Control Value: {estimate_metrics['Control Value']}")
         else:
             logging.warning("No effect estimation available to see.")
+    
+    def _extract_node_quality_score(self, node_name):
+        """
+        Extracts the quality for a selected node/feature in the causal graph.
+        
+        PREREQUISITES:
+        - Graph quality score must be calculated (call see_graph_quality_score first)
+        - Node name must exist in the causal graph
+        - Graph quality summary must be available
+        
+        Parameters:
+            - node_name: String representing the name/label of a node in the causal graph.
+        
+        Returns:
+            - A float that represents the fraction of statistically uncorroborated relations in the graph.
+        """
+        summary = self.graph_quality_summary
+        filtered_summary = summary[(summary['var1'] == node_name) | (summary['var2'] == node_name)]
+        count_mismatches = (filtered_summary['stat_test'] != filtered_summary['d_connected']).sum()
+        
+        self.node_quality_score = count_mismatches / filtered_summary.shape[0]
+        
+        return self.node_quality_score
+    
+    def see_node_quality_score(self, node_name):
+        """
+        Shows the node quality score.
+        
+        PREREQUISITES:
+        - Graph quality score must be calculated (call see_graph_quality_score first)
+        - Node name must exist in the causal graph
+        - Node name must be provided as parameter
+        
+        Parameters:
+            - node_name: String representing the name/label of a node in the causal graph.
+        
+        Returns:
+            - None (logs the node quality score)
+        """
+        if self.node_quality_score is not None:
+            score = self._extract_node_quality_score(node_name)
+            logging.info(f"Node Quality Score: {score}")
+        else:
+            logging.warning("No node quality score to see.") 
             
     # "when performing interventions, we look into the future, for counterfactuals we look into an alternative past"
     
@@ -538,10 +742,20 @@ class CausalModule:
     def simulate_intervention(self, variable_to_intervene, intervention_value, num_samples_to_draw=100):
         """
         Simulates an intervention on a specified variable and returns samples from the interventional distribution.
-        :param variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
-        :param intervention_value: The value to set for the intervention.
-        :param num_samples_to_draw: The number of samples to draw from the interventional distribution (default is 100).
-        :return: Samples from the interventional distribution as a pandas DataFrame.
+        
+        PREREQUISITES:
+        - A causal graph must be available (call find_causal_graph or input_causal_graph first)
+        - Data must be provided and accessible
+        - Variable to intervene on must exist in the causal graph
+        - Intervention value must be appropriate for the variable type
+        
+        Parameters:
+            - variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
+            - intervention_value: The value to set for the intervention.
+            - num_samples_to_draw: The number of samples to draw from the interventional distribution (default is 100).
+        
+        Returns:
+            - Samples from the interventional distribution as a pandas DataFrame.
         """
         if variable_to_intervene is None:
             variable_to_intervene = self.treatment_variable
@@ -563,10 +777,22 @@ class CausalModule:
     # def compute_counterfactual(self, variable_to_intervene, intervention_value, observed_data=None):
     #     """
     #     Computes counterfactual samples given an intervention on a specified variable.
-    #     :param variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
-    #     :param intervention_value: The value to set for the intervention.
-    #     :param observed_data: The observed data to condition on (default is None, which uses the original data).
-    #     :return: Counterfactual samples as a pandas DataFrame."""
+    #     
+    #     PREREQUISITES:
+    #     - A causal graph must be available (call find_causal_graph or input_causal_graph first)
+    #     - Data must be provided and accessible
+    #     - Variable to intervene on must exist in the causal graph
+    #     - Intervention value must be appropriate for the variable type
+    #     - Graph must be compatible with InvertibleStructuralCausalModel
+    #     
+    #     Parameters:
+    #         - variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
+    #         - intervention_value: The value to set for the intervention.
+    #         - observed_data: The observed data to condition on (default is None, which uses the original data).
+    #     
+    #     Returns:
+    #         - Counterfactual samples as a pandas DataFrame.
+    #     """
     #     if variable_to_intervene is None:
     #         variable_to_intervene = self.treatment_variable
         
@@ -586,7 +812,20 @@ class CausalModule:
         Stores various causal inference outputs as a Python object
         in the instance and also saves them to CSV files.
         
-        :param dir_path: Directory to save the CSV files.
+        PREREQUISITES:
+        - At least one of the following must be available:
+          - Causal graph (call find_causal_graph or input_causal_graph first)
+          - Graph refutation results (call refute_cgm first)
+          - Effect estimation results (call estimate_effect first)
+          - Estimate refutation results (call refute_estimate first)
+          - Interventional samples (call simulate_intervention first)
+        - Directory path must be writable
+        
+        Parameters:
+            - dir_path: Directory to save the CSV files (default is 'outputs/results').
+        
+        Returns:
+            - None (saves results to files and stores in self.results)
         """
         os.makedirs(dir_path, exist_ok=True)
         self.results = {}  # Reset or initialize
@@ -615,10 +854,15 @@ class CausalModule:
 
         # Graph quality score
         if self.graph is not None:
-            score = self._extract_graph_quality_score(self.graph, self.data)
-            self.results['graph_quality_score'] = score
-            pd.DataFrame({'Graph Quality Score': [score]}).to_csv(os.path.join(dir_path, 'graph_quality_score.csv'), index=False)
+            self.results['node_quality_score'] = self.node_quality_score
+            self.results['graph_quality_score'] = self.graph_quality_score
+            self.results['graph_quality_summary'] = self.graph_quality_summary
+            pd.DataFrame({'Graph Quality Score': [self.graph_quality_score]}).to_csv(os.path.join(dir_path, 'graph_quality_score.csv'), index=False)
             logging.info(f"Graph quality score saved to {os.path.join(dir_path, 'graph_quality_score.csv')}")
+            pd.DataFrame({'Graph Quality Summary': [self.graph_quality_summary]}).to_csv(os.path.join(dir_path, 'graph_quality_summary.csv'), index=False)
+            logging.info(f"Graph quality summary saved to {os.path.join(dir_path, 'graph_quality_summary.csv')}")            
+            pd.DataFrame({'Node Quality Score': [self.node_quality_score]}).to_csv(os.path.join(dir_path, 'node_quality_score.csv'), index=False)
+            logging.info(f"Node quality score saved to {os.path.join(dir_path, 'node_quality_score.csv')}")
 
         # Effect estimate
         if self.estimate is not None:
@@ -644,5 +888,5 @@ class CausalModule:
         if self.interventional_samples is not None:
             self.results['interventional_samples'] = self.interventional_samples
             self.interventional_samples.to_csv(os.path.join(dir_path, 'interventional_samples.csv'), index=False)
-            logging.info(f"Interventional samples saved to {os.path.join(dir_path, 'interventional_samples.csv')}")
+            logging.info(f"Interventional samples saved to {os.path.join(dir_path, 'interventional_samples.csv')}")            
 
