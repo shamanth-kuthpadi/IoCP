@@ -21,10 +21,15 @@ PREREQUISITES:
 
 # causal-learn imports
 from causallearn.search.ConstraintBased.PC import pc
+from causallearn.search.ConstraintBased.CDNOD import cdnod
 from causallearn.search.ScoreBased.GES import ges
+from causallearn.search.PermutationBased.GRaSP import grasp
+from causallearn.search.PermutationBased.BOSS import boss
 from causallearn.search.FCMBased import lingam
 from causallearn.utils.PDAG2DAG import pdag2dag
 from causallearn.search.FCMBased.lingam.utils import make_dot
+from causallearn.utils.PCUtils.BackgroundKnowledge import BackgroundKnowledge
+from causallearn.utils.PCUtils.BackgroundKnowledgeOrientUtils import orient_by_background_knowledge
 
 # dowhy imports
 import dowhy.gcm.falsify
@@ -80,7 +85,7 @@ class CausalModule:
     It also provides methods to handle prior knowledge and visualize results.
     
     PREREQUISITES:
-    - Data must be provided during initialization or before calling discovery methods
+    - Data must be provided during initialization or before calling discovery methods -- ensure also that the data is all numeric
     - Treatment and outcome variables must be specified before effect estimation
     - Treatment and control values should be set for effect estimation
     - All required packages (pandas, causallearn, dowhy, pgmpy, networkx, sklearn) must be installed
@@ -96,7 +101,7 @@ class CausalModule:
         Initializes the CausalModule with data and parameters for causal analysis.
         
         PREREQUISITES:
-        - Data should be a pandas DataFrame with appropriate column names
+        - Data should be a pandas DataFrame with appropriate column names and numeric values -- this is important as some discovery algorithms may not work
         - Treatment and outcome variables should exist as columns in the data
         - Treatment and control values should be valid values for the treatment variable
         
@@ -163,6 +168,16 @@ class CausalModule:
                 case 'pc':
                     cg = pc(data=df, show_progress=True, node_names=labels, verbose=False)
                     cg = pdag2dag(cg.G)
+                    predicted_graph = genG_to_nx(cg, labels)
+                    self.graph = predicted_graph
+                case 'grasp':
+                    cg = grasp(X=df, node_names=labels, verbose=False)
+                    cg = pdag2dag(cg)
+                    predicted_graph = genG_to_nx(cg, labels)
+                    self.graph = predicted_graph
+                case 'boss':
+                    cg = boss(X=df, node_names=labels, verbose=False)
+                    cg = pdag2dag(cg)
                     predicted_graph = genG_to_nx(cg, labels)
                     self.graph = predicted_graph
                 case 'ges':
@@ -310,7 +325,6 @@ class CausalModule:
                 identified_estimand = self.model.identify_effect(method=method)
 
             self.estimand = identified_estimand
-
             # Add logging if estimand is None or not identified
             if self.estimand is None or not hasattr(self.estimand, 'estimand_type'):
                 logging.warning("Warning: Could not identify a valid estimand from the discovered causal graph. Please check the graph structure or variable selection.")
@@ -349,7 +363,7 @@ class CausalModule:
             ctrl_val = self.control_value
         if trtm_val is None:
             trtm_val = self.treatment_value
-        
+                    
         estimate = None
         try:
             match method_cat:
@@ -363,7 +377,7 @@ class CausalModule:
                 # there are other estimation methods that I can add later on, however parameter space will increase immensely
             self.estimate = estimate
         except Exception as e:
-            logging.error(f"Error in estimating the effect: {e}")
+            logging.error(f"Error in estimating the effect: {e}. Assuming that all previous steps in the pipeline are completed, the most probable reason for this error is that an estimand wasn't identified (i.e. either change the identify_effect parameter for method or discover a new causal graph).")
             raise
         
         logging.info("Note that it is ok for your treatment to be a continuous variable, DoWhy automatically discretizes at the backend.")
@@ -736,12 +750,11 @@ class CausalModule:
         else:
             logging.warning("No node quality score to see.") 
             
-    # "when performing interventions, we look into the future, for counterfactuals we look into an alternative past"
-    
     # https://www.pywhy.org/dowhy/v0.11/user_guide/causal_tasks/what_if/interventions.html    
-    def simulate_intervention(self, variable_to_intervene, intervention_value, num_samples_to_draw=100):
+    def simulate_intervention(self, variable_to_intervene_dict, num_samples_to_draw=100):
         """
         Simulates an intervention on a specified variable and returns samples from the interventional distribution.
+        This is also synonymous to a classifier in the case that all features (besides the target/outcome feature) are intervened on.
         
         PREREQUISITES:
         - A causal graph must be available (call find_causal_graph or input_causal_graph first)
@@ -750,62 +763,25 @@ class CausalModule:
         - Intervention value must be appropriate for the variable type
         
         Parameters:
-            - variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
-            - intervention_value: The value to set for the intervention.
+            - variable_to_intervene: The variable(s) to intervene on, should be a dict that contains variable to value mapping {'v_name': lambda x: #value} (default is None, which uses the treatment variable).
             - num_samples_to_draw: The number of samples to draw from the interventional distribution (default is 100).
         
         Returns:
             - Samples from the interventional distribution as a pandas DataFrame.
         """
-        if variable_to_intervene is None:
-            variable_to_intervene = self.treatment_variable
-        
         causal_model = ProbabilisticCausalModel(self.graph)
         auto.assign_causal_mechanisms(causal_model, self.data)
         fit(causal_model, self.data)
         samples = interventional_samples(
             causal_model,
-            {variable_to_intervene: lambda x: intervention_value},
+            variable_to_intervene_dict,
             num_samples_to_draw=num_samples_to_draw
         )
         
         self.interventional_samples = samples
         
         return samples
-    
-    # https://www.pywhy.org/dowhy/v0.11/user_guide/causal_tasks/what_if/counterfactuals.html
-    # def compute_counterfactual(self, variable_to_intervene, intervention_value, observed_data=None):
-    #     """
-    #     Computes counterfactual samples given an intervention on a specified variable.
-    #     
-    #     PREREQUISITES:
-    #     - A causal graph must be available (call find_causal_graph or input_causal_graph first)
-    #     - Data must be provided and accessible
-    #     - Variable to intervene on must exist in the causal graph
-    #     - Intervention value must be appropriate for the variable type
-    #     - Graph must be compatible with InvertibleStructuralCausalModel
-    #     
-    #     Parameters:
-    #         - variable_to_intervene: The variable to intervene on (default is None, which uses the treatment variable).
-    #         - intervention_value: The value to set for the intervention.
-    #         - observed_data: The observed data to condition on (default is None, which uses the original data).
-    #     
-    #     Returns:
-    #         - Counterfactual samples as a pandas DataFrame.
-    #     """
-    #     if variable_to_intervene is None:
-    #         variable_to_intervene = self.treatment_variable
         
-    #     causal_model = InvertibleStructuralCausalModel(self.graph)
-    #     auto.assign_causal_mechanisms(causal_model, self.data)
-    #     fit(causal_model, self.data)
-    #     samples = counterfactual_samples(
-    #         causal_model,
-    #         {variable_to_intervene: lambda x: intervention_value},
-    #         observed_data = observed_data if observed_data is not None else self.data,
-    #     )
-        
-    #     return samples
 
     def store_results(self, dir_path='outputs/results'):
         """
@@ -873,8 +849,8 @@ class CausalModule:
 
         # Estimate refutation metrics
         if self.est_ref is not None:
+            ref_results = []
             if isinstance(self.est_ref, list):
-                ref_results = []
                 for ref in self.est_ref:
                     pval, neweff = self._extract_refuter_metrics(ref)
                     ref_results.append({'p-value': pval, 'New effect': neweff})
