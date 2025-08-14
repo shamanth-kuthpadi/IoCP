@@ -386,7 +386,7 @@ class CausalModule:
                 # there are other estimation methods that I can add later on, however parameter space will increase immensely
             self.estimate = estimate
         except Exception as e:
-            logging.error(f"Error in estimating the effect: {e}. Assuming that all previous steps in the pipeline are completed, the most probable reason for this error is that an estimand wasn't identified (i.e. either change the identify_effect parameter for method or discover a new causal graph).")
+            logging.error(f"Error in estimating the effect: {e}")
             raise
         
         logging.info("Note that it is ok for your treatment to be a continuous variable, DoWhy automatically discretizes at the backend.")
@@ -444,7 +444,7 @@ class CausalModule:
             self.est_ref = ref
         
         except Exception as e:
-            logging.error(f"Error in refuting estimate: {e}")
+            logging.error(f"Error in refuting estimate: {e}. \nAssuming that all previous steps in the pipeline are completed, the most probable reason for this error is that an estimand wasn't identified (i.e. either change the identify_effect parameter for method or discover a new causal graph).")
             raise
             
         return self.est_ref

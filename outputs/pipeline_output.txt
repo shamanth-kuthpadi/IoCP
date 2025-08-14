@@ -1,418 +1,793 @@
-2025-08-13 17:30:30,659 INFO: CausalModule initialized with provided parameters.
-2025-08-13 17:30:30,659 INFO: Finding causal graph using pc algorithm
-2025-08-13 17:30:31,263 INFO: Creating a causal model from the discovered/given causal graph
-2025-08-13 17:30:31,264 INFO: Model to find the causal effect of treatment ['v0'] on outcome ['y']
-2025-08-13 17:30:31,265 INFO: Identifying the effect estimand of the treatment on the outcome variable
-2025-08-13 17:30:31,267 INFO: Causal effect can be identified.
-2025-08-13 17:30:31,270 INFO: Instrumental variables for treatment and outcome:[]
-2025-08-13 17:30:31,271 INFO: Frontdoor variables for treatment and outcome:[]
-2025-08-13 17:30:31,271 INFO: Estimand type: EstimandType.NONPARAMETRIC_ATE
-
-### Estimand : 1
-Estimand name: backdoor
-Estimand expression:
-  d        
-─────(E[y])
-d[v₀]      
-Estimand assumption 1, Unconfoundedness: If U→{v0} and U→y then P(y|v0,,U) = P(y|v0,)
-
-### Estimand : 2
-Estimand name: iv
-No such variable(s) found!
-
-### Estimand : 3
-Estimand name: frontdoor
-No such variable(s) found!
-
-2025-08-13 17:30:31,273 INFO: Note that you can also use other methods for the identification process. Below are method descriptions taken directly from DoWhy's documentation
-2025-08-13 17:30:31,273 INFO: maximal-adjustment: returns the maximal set that satisfies the backdoor criterion. This is usually the fastest way to find a valid backdoor set, but the set may contain many superfluous variables.
-2025-08-13 17:30:31,273 INFO: minimal-adjustment: returns the set with minimal number of variables that satisfies the backdoor criterion. This may take longer to execute, and sometimes may not return any backdoor set within the maximum number of iterations.
-2025-08-13 17:30:31,273 INFO: exhaustive-search: returns all valid backdoor sets. This can take a while to run for large graphs.
-2025-08-13 17:30:31,274 INFO: default: This is a good mix of minimal and maximal adjustment. It starts with maximal adjustment which is usually fast. It then runs minimal adjustment and returns the set having the smallest number of variables.
-2025-08-13 17:30:31,274 INFO: Estimating the effect of the treatment on the outcome variable
-2025-08-13 17:30:31,275 INFO: linear_regression
-2025-08-13 17:30:31,275 INFO: INFO: Using Linear Regression Estimator
-2025-08-13 17:30:31,277 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,323 INFO: INFO: The sample size: 10
-2025-08-13 17:30:31,324 INFO: INFO: The number of simulations: 399
-2025-08-13 17:30:31,326 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,351 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,379 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,406 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,433 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,463 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,492 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,517 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,542 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,571 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,600 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,633 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,660 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,687 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,711 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,736 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,766 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,794 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,815 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,841 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,866 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,896 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,922 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,949 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:31,972 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,002 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,028 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,053 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,083 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,111 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,136 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,164 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,185 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,211 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,241 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,267 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,293 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,336 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,382 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,409 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,439 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,470 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,492 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,518 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,546 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,571 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,599 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,628 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,656 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,683 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,706 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,732 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,758 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,788 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,816 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,842 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,870 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,899 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,926 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,951 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:32,978 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,007 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,032 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,062 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,089 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,122 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,149 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,176 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,206 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,235 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,267 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,293 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,321 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,351 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,381 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,407 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,437 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,462 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,489 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,516 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,551 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,578 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,603 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,629 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,657 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,684 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,710 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,739 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,766 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,795 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,820 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,847 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,874 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,903 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,930 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,956 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:33,984 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,009 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,037 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,063 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,090 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,113 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,141 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,170 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,196 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,228 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,259 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,289 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,318 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,348 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,383 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,410 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,440 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,462 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,490 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,514 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,540 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,565 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,593 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,623 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,656 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,682 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,713 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,743 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,772 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,806 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,837 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,862 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,891 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,920 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,946 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:34,975 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,000 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,031 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,056 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,086 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,113 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,142 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,172 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,201 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,228 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,258 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,284 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,458 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,486 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,514 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,540 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,566 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,593 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,621 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,665 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,717 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,750 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,783 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,833 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,868 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,903 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,936 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,965 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:35,993 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,026 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,053 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,075 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,103 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,129 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,154 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,182 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,211 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,233 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,261 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,286 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,310 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,333 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,357 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,383 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,411 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,435 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,461 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,491 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,515 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,544 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,573 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,603 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,633 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,665 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,694 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,723 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,755 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,784 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,811 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,834 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,859 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,885 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,911 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,935 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,961 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:36,991 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,012 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,038 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,064 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,090 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,120 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,150 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,176 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,203 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,233 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,261 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,289 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,319 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,346 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,381 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,400 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,430 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,457 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,484 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,515 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,544 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,571 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,598 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,631 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,676 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,717 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,743 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,773 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,800 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,826 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,856 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,884 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,913 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,943 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,971 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:37,999 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,027 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,049 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,083 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,112 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,138 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,164 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,188 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,214 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,244 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,272 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,302 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,328 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,358 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,388 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,414 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,444 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,469 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,497 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,527 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,553 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,578 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,606 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,630 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,660 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,693 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,722 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,747 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,770 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,796 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,819 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,847 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,877 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,905 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,935 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,961 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:38,991 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,020 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,050 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,077 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,105 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,134 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,161 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,192 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,220 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,252 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,280 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,305 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,333 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,361 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,385 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,422 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,468 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,494 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,522 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,550 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,578 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,606 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,632 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,658 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,691 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,719 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,748 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,773 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,799 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,826 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,858 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,886 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,912 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,938 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,964 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:39,992 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,016 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,043 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,065 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,091 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,119 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,145 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,175 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,210 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,239 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,268 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,296 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,327 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,350 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,379 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,405 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,433 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,463 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,491 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,517 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,546 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,573 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,599 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,627 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,663 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,691 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,720 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,746 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,772 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,798 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,827 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,855 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,881 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,910 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,941 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:40,967 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,024 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,051 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,077 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,111 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,136 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,168 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,198 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,226 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,254 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,280 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,308 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,334 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,362 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,390 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,419 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,445 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,471 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,498 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,531 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,558 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,586 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,614 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:41,643 INFO: b: y~v0+v0*Z1+v0*W1+v0*W2+v0*W3+v0*W0+v0*W4
-2025-08-13 17:30:48,971 INFO: CausalModule initialized with provided parameters.
-2025-08-13 17:30:48,972 INFO: Finding causal graph using pc algorithm
-2025-08-13 17:30:49,358 INFO: Creating a causal model from the discovered/given causal graph
-2025-08-13 17:30:49,358 INFO: Model to find the causal effect of treatment ['v0'] on outcome ['y']
-2025-08-13 17:30:49,359 INFO: Identifying the effect estimand of the treatment on the outcome variable
-2025-08-13 17:30:49,359 WARNING: No directed path from treatment to outcome. Causal Effect is zero.
-2025-08-13 17:30:49,360 INFO: No directed path from ['v0'] to ['y'] in the causal graph.
-Causal effect is zero.
-2025-08-13 17:30:49,360 INFO: Note that you can also use other methods for the identification process. Below are method descriptions taken directly from DoWhy's documentation
-2025-08-13 17:30:49,360 INFO: maximal-adjustment: returns the maximal set that satisfies the backdoor criterion. This is usually the fastest way to find a valid backdoor set, but the set may contain many superfluous variables.
-2025-08-13 17:30:49,361 INFO: minimal-adjustment: returns the set with minimal number of variables that satisfies the backdoor criterion. This may take longer to execute, and sometimes may not return any backdoor set within the maximum number of iterations.
-2025-08-13 17:30:49,361 INFO: exhaustive-search: returns all valid backdoor sets. This can take a while to run for large graphs.
-2025-08-13 17:30:49,361 INFO: default: This is a good mix of minimal and maximal adjustment. It starts with maximal adjustment which is usually fast. It then runs minimal adjustment and returns the set having the smallest number of variables.
-2025-08-13 17:30:49,361 INFO: Estimating the effect of the treatment on the outcome variable
-2025-08-13 17:30:49,362 INFO: linear_regression
-2025-08-13 17:30:49,362 INFO: INFO: Using Linear Regression Estimator
-2025-08-13 17:30:49,362 WARNING: No directed path from ['v0'] to ['y'].
-2025-08-13 17:30:49,363 INFO: Note that it is ok for your treatment to be a continuous variable, DoWhy automatically discretizes at the backend.
-2025-08-13 17:30:49,363 INFO: Refuting the estimated effect of the treatment on the outcome variable
-2025-08-13 17:30:49,363 ERROR: Error in refuting estimate: 'NoneType' object is not subscriptable
+2025-08-14 11:10:11,750 INFO: CausalModule initialized with provided parameters.
+2025-08-14 11:10:11,752 INFO: Finding causal graph using pc algorithm
+2025-08-14 11:10:11,783 ERROR: Error in creating causal graph: Data correlation matrix is singular. Cannot run fisherz test. Please check your data.
+2025-08-14 11:10:28,150 INFO: CausalModule initialized with provided parameters.
+2025-08-14 11:10:28,151 INFO: Finding causal graph using pc algorithm
+2025-08-14 11:10:28,752 INFO: Creating a causal model from the discovered/given causal graph
+2025-08-14 11:10:28,754 INFO: Model to find the causal effect of treatment ['v0'] on outcome ['y']
+2025-08-14 11:10:28,755 INFO: Identifying the effect estimand of the treatment on the outcome variable
+2025-08-14 11:10:28,758 INFO: Causal effect can be identified.
+2025-08-14 11:10:28,761 INFO: Instrumental variables for treatment and outcome:['Z1']
+2025-08-14 11:10:28,762 INFO: Frontdoor variables for treatment and outcome:[]
+2025-08-14 11:10:28,763 INFO: Note that you can also use other methods for the identification process. Below are method descriptions taken directly from DoWhy's documentation
+2025-08-14 11:10:28,763 INFO: maximal-adjustment: returns the maximal set that satisfies the backdoor criterion. This is usually the fastest way to find a valid backdoor set, but the set may contain many superfluous variables.
+2025-08-14 11:10:28,763 INFO: minimal-adjustment: returns the set with minimal number of variables that satisfies the backdoor criterion. This may take longer to execute, and sometimes may not return any backdoor set within the maximum number of iterations.
+2025-08-14 11:10:28,764 INFO: exhaustive-search: returns all valid backdoor sets. This can take a while to run for large graphs.
+2025-08-14 11:10:28,764 INFO: default: This is a good mix of minimal and maximal adjustment. It starts with maximal adjustment which is usually fast. It then runs minimal adjustment and returns the set having the smallest number of variables.
+2025-08-14 11:10:28,765 INFO: Estimating the effect of the treatment on the outcome variable
+2025-08-14 11:10:28,765 INFO: linear_regression
+2025-08-14 11:10:28,766 INFO: INFO: Using Linear Regression Estimator
+2025-08-14 11:10:28,771 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:28,865 INFO: INFO: The sample size: 10000
+2025-08-14 11:10:28,866 INFO: INFO: The number of simulations: 399
+2025-08-14 11:10:28,869 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:28,946 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,022 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,098 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,172 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,249 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,333 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,407 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,480 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,554 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,628 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,702 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,774 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,847 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,919 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:29,991 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,065 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,137 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,210 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,283 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,355 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,427 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,500 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,574 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,646 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,719 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,791 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,863 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:30,937 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,010 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,082 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,155 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,227 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,301 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,376 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,450 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,523 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,596 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,667 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,741 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,815 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,888 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:31,960 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,032 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,105 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,178 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,252 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,326 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,398 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,471 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,544 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,617 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,691 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,764 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,837 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,910 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:32,986 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,059 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,131 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,204 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,276 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,350 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,423 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,495 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,567 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,640 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,713 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,785 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,858 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:33,930 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,004 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,076 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,149 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,227 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,300 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,373 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,447 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,522 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,596 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,669 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,741 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,813 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,886 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:34,958 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,031 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,105 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,177 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,254 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,326 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,398 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,471 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,545 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,619 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,693 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,767 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,839 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,912 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:35,987 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,062 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,135 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,207 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,312 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,384 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,457 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,531 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,605 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,679 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,751 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,825 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,898 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:36,971 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,044 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,117 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,192 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,265 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,338 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,411 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,483 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,556 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,630 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,703 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,775 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,847 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,919 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:37,991 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,063 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,137 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,210 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,284 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,357 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,429 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,502 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,575 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,649 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,727 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,799 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,871 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:38,942 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,015 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,089 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,163 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,235 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,309 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,382 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,455 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,529 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,602 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,676 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,750 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,824 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,897 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:39,970 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,044 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,118 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,192 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,267 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,340 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,413 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,485 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,558 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,633 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,707 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,780 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,853 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:40,926 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,000 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,074 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,148 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,221 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,294 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,366 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,439 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,511 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,584 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,657 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,732 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,805 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,878 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:41,950 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,023 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,097 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,169 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,247 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,320 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,393 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,466 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,539 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,614 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,692 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,766 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,839 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,913 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:42,986 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,058 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,132 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,205 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,279 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,353 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,425 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,498 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,571 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,645 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,717 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,790 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,862 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:43,936 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,008 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,081 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,154 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,226 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,300 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,372 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,444 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,516 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,588 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,662 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,737 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,812 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,884 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:44,956 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,029 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,101 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,173 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,244 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,316 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,388 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,460 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,532 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,605 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,678 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,750 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,823 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,896 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:45,969 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,040 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,113 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,187 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,260 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,333 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,405 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,478 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,551 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,623 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,696 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,769 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,847 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,920 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:46,993 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,068 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,140 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,214 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,287 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,360 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,433 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,507 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,580 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,653 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,726 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,798 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,871 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:47,944 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,016 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,090 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,163 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,236 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,309 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,381 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,454 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,527 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,599 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,672 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,744 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,816 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,888 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:48,961 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,034 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,107 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,179 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,253 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,325 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,397 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,470 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,542 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,637 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,716 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,790 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,863 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:49,935 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,009 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,083 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,159 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,234 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,308 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,381 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,454 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,526 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,599 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,672 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,745 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,818 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,891 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:50,964 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,040 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,113 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,188 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,261 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,336 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,409 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,482 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,556 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,636 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,710 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,783 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,857 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:51,931 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,004 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,078 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,151 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,272 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,488 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,664 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,750 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,831 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,903 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:52,979 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,054 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,129 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,205 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,279 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,352 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,425 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,500 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,574 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,649 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,724 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,795 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,871 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:53,950 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,036 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,123 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,201 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,283 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,360 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,435 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,513 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,587 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,660 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,731 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,802 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,873 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:54,944 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,015 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,086 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,157 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,228 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,299 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,369 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,439 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,509 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,580 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,651 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,724 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,801 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,875 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:55,947 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,020 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,091 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,163 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,238 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,311 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,384 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,456 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,533 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,605 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,678 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,749 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,821 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,892 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:56,964 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,037 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,116 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,193 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,281 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,365 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,442 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,514 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,587 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,662 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,735 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,807 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,879 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:57,950 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:58,022 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:58,094 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:58,165 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:58,236 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:58,307 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:58,378 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:58,449 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:10:58,519 INFO: Note that it is ok for your treatment to be a continuous variable, DoWhy automatically discretizes at the backend.
+2025-08-14 11:10:58,520 INFO: Refuting the estimated effect of the treatment on the outcome variable
+2025-08-14 11:10:58,521 INFO: Refutation over 100 simulated datasets of PlaceboType.PERMUTE treatment
+2025-08-14 11:10:58,525 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:58,596 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:58,670 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:58,747 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:58,818 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:58,891 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:58,964 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,033 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,103 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,172 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,240 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,309 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,379 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,448 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,518 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,586 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,656 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,725 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,795 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,864 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:10:59,934 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,003 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,072 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,142 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,210 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,279 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,348 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,425 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,499 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,574 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,648 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,719 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,788 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,863 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:00,934 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,009 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,078 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,157 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,237 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,316 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,394 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,466 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,538 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,608 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,678 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,748 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,817 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,887 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:01,956 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,025 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,093 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,162 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,230 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,299 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,367 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,437 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,512 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,583 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,664 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,738 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,808 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,879 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:02,950 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,020 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,089 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,158 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,227 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,296 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,366 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,435 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,504 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,576 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,649 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,720 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,789 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,859 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,928 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:03,998 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,068 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,137 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,207 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,276 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,345 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,416 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,486 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,557 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,631 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,737 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,844 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,915 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:04,985 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,056 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,128 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,199 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,270 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,341 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,413 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,484 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,553 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,627 INFO: b: y~placebo+W3+W4+W2+placebo*W1+placebo*W0
+2025-08-14 11:11:05,702 INFO: Making use of Bootstrap as we have more than 100 examples.
+             Note: The greater the number of examples, the more accurate are the confidence estimates
+2025-08-14 11:11:05,703 INFO: Refutation over 100 simulated datasets, each with a random common cause added
+2025-08-14 11:11:05,707 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:05,780 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:05,852 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:05,923 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:05,994 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,064 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,134 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,206 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,278 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,349 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,427 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,497 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,565 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,635 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,704 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,772 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,841 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,908 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:06,979 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,051 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,120 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,189 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,258 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,326 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,395 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,465 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,536 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,605 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,674 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,744 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,813 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,882 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:07,951 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,019 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,087 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,156 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,226 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,295 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,364 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,432 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,500 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,568 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,637 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,706 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,775 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,843 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,912 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:08,980 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,049 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,118 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,186 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,254 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,323 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,392 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,461 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,529 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,599 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,668 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,737 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,838 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,908 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:09,978 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,047 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,116 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,185 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,253 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,322 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,391 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,460 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,528 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,598 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,667 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,736 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,805 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,873 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:10,942 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,010 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,079 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,148 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,221 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,303 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,376 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,447 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,516 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,584 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,652 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,722 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,792 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,862 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:11,943 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,057 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,131 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,201 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,273 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,343 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,413 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,483 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,552 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,622 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,702 INFO: b: y~v0+W3+W4+W2+w_random+v0*W1+v0*W0
+2025-08-14 11:11:12,778 INFO: Making use of Bootstrap as we have more than 100 examples.
+             Note: The greater the number of examples, the more accurate are the confidence estimates
+2025-08-14 11:11:12,779 INFO: Refutation over 0.9 simulated datasets of size 9000.0 each
+2025-08-14 11:11:12,783 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:12,856 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:12,930 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,004 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,074 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,144 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,214 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,283 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,356 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,428 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,498 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,568 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,638 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,709 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,780 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,854 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:13,932 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,004 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,076 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,149 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,222 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,295 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,367 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,438 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,508 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,580 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,887 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:14,958 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,029 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,100 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,173 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,251 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,326 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,399 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,472 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,543 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,615 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,686 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,756 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,841 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:15,962 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,033 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,103 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,173 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,243 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,313 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,383 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,452 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,522 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,600 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,683 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,760 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,837 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,909 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:16,981 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,051 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,121 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,191 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,263 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,335 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,407 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,477 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,547 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,618 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,688 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,758 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,828 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,898 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:17,978 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,062 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,136 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,211 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,293 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,378 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,466 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,561 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,636 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,726 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,804 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,878 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:18,949 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,020 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,092 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,162 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,231 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,301 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,371 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,442 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,514 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,585 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,657 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,727 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,801 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,882 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:19,955 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:20,027 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:20,099 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:20,171 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:20,242 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:20,313 INFO: b: y~v0+W3+W4+W2+v0*W1+v0*W0
+2025-08-14 11:11:20,381 INFO: Making use of Bootstrap as we have more than 100 examples.
+             Note: The greater the number of examples, the more accurate are the confidence estimates
+2025-08-14 11:11:20,383 INFO: ==========================================
+2025-08-14 11:11:20,383 INFO: Number of nodes: 9
+2025-08-14 11:11:20,384 INFO: ==========================================
+2025-08-14 11:11:20,384 INFO: Number of edges: 13
+2025-08-14 11:11:20,384 INFO: ==========================================
+2025-08-14 11:11:20,385 INFO: Edge: Z1 -> v0, Weight: 1
+2025-08-14 11:11:20,385 INFO: Edge: W0 -> Z0, Weight: 1
+2025-08-14 11:11:20,385 INFO: Edge: W0 -> y, Weight: 1
+2025-08-14 11:11:20,385 INFO: Edge: W1 -> Z0, Weight: 1
+2025-08-14 11:11:20,386 INFO: Edge: W1 -> y, Weight: 1
+2025-08-14 11:11:20,386 INFO: Edge: W2 -> v0, Weight: 1
+2025-08-14 11:11:20,386 INFO: Edge: W2 -> y, Weight: 1
+2025-08-14 11:11:20,387 INFO: Edge: W3 -> v0, Weight: 1
+2025-08-14 11:11:20,387 INFO: Edge: W3 -> y, Weight: 1
+2025-08-14 11:11:20,387 INFO: Edge: W4 -> v0, Weight: 1
+2025-08-14 11:11:20,387 INFO: Edge: W4 -> y, Weight: 1
+2025-08-14 11:11:20,388 INFO: Edge: v0 -> Z0, Weight: 1
+2025-08-14 11:11:20,388 INFO: Edge: v0 -> y, Weight: 1
+2025-08-14 11:11:20,388 INFO: ==========================================
+2025-08-14 11:11:20,388 INFO: Paths from v0 [treatment] to y [outcome]: 1
+2025-08-14 11:11:20,389 INFO: v0 -> y
+2025-08-14 11:11:20,389 INFO: ==========================================
+2025-08-14 11:11:20,389 INFO: Markov blanket of v0: ['y', 'W3', 'W0', 'W4', 'W1', 'Z0', 'Z1', 'W2']
+2025-08-14 11:11:20,389 INFO: Markov blanket of y: ['v0', 'W3', 'W0', 'W4', 'W1', 'W2']
+2025-08-14 11:11:20,395 INFO: Graph properties saved to outputs/results/graph_properties.csv
+2025-08-14 11:11:20,396 INFO: Graph quality score saved to outputs/results/graph_quality_score.csv
+2025-08-14 11:11:20,397 INFO: Graph quality summary saved to outputs/results/graph_quality_summary.csv
+2025-08-14 11:11:20,398 INFO: Node quality score saved to outputs/results/node_quality_score.csv
+2025-08-14 11:11:20,399 INFO: Effect estimate saved to outputs/results/effect_estimate.csv
+2025-08-14 11:11:20,400 INFO: Estimate refutation metrics saved to outputs/results/estimate_refutation.csv
+2025-08-14 11:11:28,548 INFO: ==========================================
+2025-08-14 11:11:28,549 INFO: Number of nodes: 9
+2025-08-14 11:11:28,549 INFO: ==========================================
+2025-08-14 11:11:28,550 INFO: Number of edges: 13
+2025-08-14 11:11:28,550 INFO: ==========================================
+2025-08-14 11:11:28,550 INFO: Edge: Z1 -> v0, Weight: 1
+2025-08-14 11:11:28,551 INFO: Edge: W0 -> Z0, Weight: 1
+2025-08-14 11:11:28,551 INFO: Edge: W0 -> y, Weight: 1
+2025-08-14 11:11:28,552 INFO: Edge: W1 -> Z0, Weight: 1
+2025-08-14 11:11:28,552 INFO: Edge: W1 -> y, Weight: 1
+2025-08-14 11:11:28,552 INFO: Edge: W2 -> v0, Weight: 1
+2025-08-14 11:11:28,552 INFO: Edge: W2 -> y, Weight: 1
+2025-08-14 11:11:28,553 INFO: Edge: W3 -> v0, Weight: 1
+2025-08-14 11:11:28,553 INFO: Edge: W3 -> y, Weight: 1
+2025-08-14 11:11:28,553 INFO: Edge: W4 -> v0, Weight: 1
+2025-08-14 11:11:28,554 INFO: Edge: W4 -> y, Weight: 1
+2025-08-14 11:11:28,554 INFO: Edge: v0 -> Z0, Weight: 1
+2025-08-14 11:11:28,554 INFO: Edge: v0 -> y, Weight: 1
+2025-08-14 11:11:28,554 INFO: ==========================================
+2025-08-14 11:11:28,555 INFO: Paths from v0 [treatment] to y [outcome]: 1
+2025-08-14 11:11:28,555 INFO: v0 -> y
+2025-08-14 11:11:28,556 INFO: ==========================================
+2025-08-14 11:11:28,556 INFO: Markov blanket of v0: ['y', 'W3', 'W0', 'W4', 'W1', 'Z0', 'Z1', 'W2']
+2025-08-14 11:11:28,556 INFO: Markov blanket of y: ['v0', 'W3', 'W0', 'W4', 'W1', 'W2']
+2025-08-14 11:11:28,558 INFO: Graph properties saved to outputs/results/graph_properties.csv
+2025-08-14 11:11:28,559 INFO: Graph quality score saved to outputs/results/graph_quality_score.csv
+2025-08-14 11:11:28,559 INFO: Graph quality summary saved to outputs/results/graph_quality_summary.csv
+2025-08-14 11:11:28,560 INFO: Node quality score saved to outputs/results/node_quality_score.csv
+2025-08-14 11:11:28,561 INFO: Effect estimate saved to outputs/results/effect_estimate.csv
+2025-08-14 11:11:28,562 INFO: Estimate refutation metrics saved to outputs/results/estimate_refutation.csv
+2025-08-14 11:11:28,573 INFO: Interventional samples saved to outputs/results/interventional_samples.csv
