@@ -92,11 +92,9 @@ class CausalModule:
     """
     def __init__(self, 
                  data = None, 
-                 discovery_algorithm = None, 
                  treatment_variable = None, 
                  outcome_variable = None,
-                 treatment_value = None,
-                 control_value = None):
+                 ):
         """
         Initializes the CausalModule with data and parameters for causal analysis.
         
@@ -115,12 +113,8 @@ class CausalModule:
         """
         
         self.data = data
-        self.discovery_algorithm = discovery_algorithm
         self.treatment_variable = treatment_variable
         self.outcome_variable = outcome_variable
-        self.treatment_value = treatment_value
-        self.control_value = control_value
-        
         
         self.graph = None
         self.graph_ref = None
@@ -132,6 +126,7 @@ class CausalModule:
         self.graph_quality_summary = None
         self.node_quality_score = None
         self.interventional_samples = None
+        self.graph_metrics = None
         
         self.results = {}  # Initialize results dictionary to store outputs
         logging.info("CausalModule initialized with provided parameters.")
@@ -155,8 +150,7 @@ class CausalModule:
             - The discovered causal graph as a networkx DiGraph.
         """
 
-        if self.discovery_algorithm:
-            algo = self.discovery_algorithm
+        self.discovery_algorithm = algo
         
         logging.info(f"Finding causal graph using {algo} algorithm")
         
@@ -235,7 +229,20 @@ class CausalModule:
         """
         self.graph = graph
 
-    def refute_cgm(self, n_perm=100, apply_sugst=True, show_plt=False):
+    def refute_cgm(
+        self, 
+        n_perm=50, 
+        apply_sugst=True, 
+        show_plt=False,
+        indep_test = gcm,
+        cond_indep_test = gcm,
+        signficance_level=0.05,
+        significance_ci=0.05,
+        show_progress_bar=None,
+        n_jobs=None,
+        plot_kwargs=None,
+        allow_data_subset=True
+    ):
         """
         Refutes the discovered causal graph using permutation tests.
         
@@ -253,15 +260,22 @@ class CausalModule:
             - The refuted causal graph.
         """
         
-        indep_test = gcm
-        cond_indep_test = gcm
-        
         logging.info("Refuting the discovered/given causal graph")
         
         try:
-            result = falsify_graph(self.graph, self.data, n_permutations=n_perm,
-                                  independence_test=indep_test,
-                                  conditional_independence_test=cond_indep_test, plot_histogram=show_plt)
+            result = falsify_graph(causal_graph=self.graph, 
+                                   data=self.data, 
+                                   n_permutations=n_perm,
+                                   independence_test=indep_test,
+                                   conditional_independence_test=cond_indep_test, 
+                                   significance_level=signficance_level,
+                                   signficance_ci=significance_ci,
+                                   show_progress_bar=show_progress_bar,
+                                   n_jobs=n_jobs,
+                                   plot_kwargs=plot_kwargs,
+                                   plot_histogram=show_plt,
+                                   allow_data_subset=allow_data_subset
+                                )
             
             self.graph_ref = result
             
@@ -339,7 +353,7 @@ class CausalModule:
         logging.info("default: This is a good mix of minimal and maximal adjustment. It starts with maximal adjustment which is usually fast. It then runs minimal adjustment and returns the set having the smallest number of variables.")
         return self.estimand
     
-    def estimate_effect(self, method_cat='backdoor.linear_regression', ctrl_val=None, trtm_val=None):
+    def estimate_effect(self,  ctrl_val, trtm_val, method_cat='backdoor.linear_regression'):
         """
         Estimates the effect of the treatment on the outcome variable using the identified estimand.
         
@@ -350,19 +364,14 @@ class CausalModule:
         
         Parameters:
             - method_cat: The method category to use for effect estimation (default is 'backdoor.linear_regression').
-            - ctrl_val: The control value for the treatment variable (default is None, which uses the control value set during initialization).
-            - trtm_val: The treatment value for the treatment variable (default is None, which uses the treatment value set during initialization).
+            - ctrl_val: The control value for the treatment variable 
+            - trtm_val: The treatment value for the treatment variable
         
         Returns:
             - The estimated effect as a dowhy EffectEstimate object.
         """
         
         logging.info("Estimating the effect of the treatment on the outcome variable")
-        
-        if ctrl_val is None:
-            ctrl_val = self.control_value
-        if trtm_val is None:
-            trtm_val = self.treatment_value
                     
         estimate = None
         try:
@@ -385,7 +394,7 @@ class CausalModule:
     
     # should give a warning to users if the estimate is to be refuted
 
-    def refute_estimate(self,  method_name="ALL", placebo_type='permute', subset_fraction=0.9):
+    def refute_estimate(self):
         """
         Refutes the estimated effect of the treatment on the outcome variable using various methods.
         
@@ -394,17 +403,14 @@ class CausalModule:
         - The causal model must be valid and accessible
         - Data must be sufficient for the refutation methods
         
-        Parameters:
-            - method_name: The method to use for refutation (default is "ALL", which applies all methods).
-                         Options: "placebo_treatment_refuter", "random_common_cause", "data_subset_refuter", "ALL"
-            - placebo_type: The type of placebo treatment to use for refutation (default is 'permute').
-            - subset_fraction: The fraction of the data to use for the data subset refuter (default is 0.9).
-        
         Returns:
             - The refuted estimate as a dowhy RefutationResult object or a list of results if multiple methods are applied.
         """
         
         logging.info("Refuting the estimated effect of the treatment on the outcome variable")
+        
+        placebo_type='permute'
+        subset_fraction=0.9
         
         ref = None
         
@@ -430,24 +436,10 @@ class CausalModule:
             )
         
         try:
-            match method_name:
-                case "placebo_treatment_refuter":
-                    ref = placebo_treatment_refuter(self.model)
-                
-                case "random_common_cause":
-                    ref = random_common_cause_refuter(self.model)
-
-                case "data_subset_refuter":
-                    ref = data_subset_refuter(self.model)
-                
-                case "ALL":
-                    ref_placebo = placebo_treatment_refuter(self.model)
-                    ref_rand_cause = random_common_cause_refuter(self.model)
-                    ref_subset = data_subset_refuter(self.model)
-                    ref = [ref_placebo, ref_rand_cause, ref_subset]
-                    
-            if not isinstance(ref, list) and ref.refutation_result['is_statistically_significant']:
-                logging.warning("Please make sure to take a revisit the pipeline as the refutation p-val is significant: ", ref.refutation_result['p_value'])
+            ref_placebo = placebo_treatment_refuter(self.model)
+            ref_rand_cause = random_common_cause_refuter(self.model)
+            ref_subset = data_subset_refuter(self.model)
+            ref = [ref_placebo, ref_rand_cause, ref_subset]
     
             self.est_ref = ref
         
@@ -506,6 +498,8 @@ class CausalModule:
         logging.info(f"Markov blanket of {treatment}: {metrics['treatment_mb']}")
         metrics['outcome_mb'] = G.get_markov_blanket(outcome)
         logging.info(f"Markov blanket of {outcome}: {metrics['outcome_mb']}")
+        
+        self.graph_metrics = metrics
         
         return metrics
     
@@ -763,7 +757,7 @@ class CausalModule:
         - Intervention value must be appropriate for the variable type
         
         Parameters:
-            - variable_to_intervene: The variable(s) to intervene on, should be a dict that contains variable to value mapping {'v_name': lambda x: #value} (default is None, which uses the treatment variable).
+            - variable_to_intervene: The variable(s) to intervene on, should be a dict that contains variable to value mapping {'v_name': lambda x: #value}
             - num_samples_to_draw: The number of samples to draw from the interventional distribution (default is 100).
         
         Returns:
