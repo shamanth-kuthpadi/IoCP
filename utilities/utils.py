@@ -13,6 +13,7 @@ from dowhy.gcm.independence_test import generalised_cov_measure as gvm
 import dowhy.gcm.ml
 from dowhy.gcm.ml import regression as rg
 from sklearn.ensemble import GradientBoostingRegressor
+import os
 
 from pgmpy.base import DAG
 
@@ -137,14 +138,17 @@ def load_instance_from_pickle(file_path='outputs/causal_module_instance.pkl'):
     print(f"CausalModule instance loaded from {file_path}")
     return instance
 
-def save_instance_to_pickle(instance, file_path):
+
+def save_instance_to_pickle(instance, file_path='outputs/causal_module_instance.pkl'):
     """
     Saves a CausalModule instance to a pickle file.
     :param instance: The CausalModule instance to save.
     :param file_path: The path to save the pickle file.
     """
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, 'wb') as f:
         dill.dump(instance, f)
     print(f"CausalModule instance saved to {file_path}")
+
       
     

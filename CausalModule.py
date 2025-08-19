@@ -128,6 +128,7 @@ class CausalModule:
         self.node_quality_score = None
         self.interventional_samples = None
         self.graph_metrics = None
+        self.predictions = None
         
         self.results = {}  # Initialize results dictionary to store outputs
         logging.info("CausalModule initialized with provided parameters.")
@@ -270,7 +271,7 @@ class CausalModule:
                                    independence_test=indep_test,
                                    conditional_independence_test=cond_indep_test, 
                                    significance_level=signficance_level,
-                                   signficance_ci=significance_ci,
+                                   significance_ci=significance_ci,
                                    show_progress_bar=show_progress_bar,
                                    n_jobs=n_jobs,
                                    plot_kwargs=plot_kwargs,
@@ -777,7 +778,7 @@ class CausalModule:
         
         return samples
     
-    def batch_intervention_predict(self, intervention_df, outcome_var, num_samples_to_draw=100):
+    def batch_classify(self, intervention_df, outcome_var, num_samples_to_draw=100):
         """
         Runs simulate_intervention for each row in intervention_df,
         makes predictions based on majority vote, and computes confidence scores.
@@ -808,8 +809,11 @@ class CausalModule:
             confidence = count / len(outcomes)
             predictions.append(pred_class)
             confidences.append(confidence)
-
-        return pd.DataFrame({"prediction": predictions, "confidence": confidences}, index=intervention_df.index)
+        
+        final_predictions_df = pd.DataFrame({"prediction": predictions, "confidence": confidences}, index=intervention_df.index)
+        self.predictions = final_predictions_df
+        
+        return final_predictions_df
     
     def store_results(self, dir_path='outputs/results'):
         """
@@ -841,7 +845,7 @@ class CausalModule:
             pd.DataFrame([metrics]).to_csv(os.path.join(dir_path, 'graph_properties.csv'), index=False)
             logging.info(f"Graph properties saved to {os.path.join(dir_path, 'graph_properties.csv')}")
         else:
-            logging.warning("No causal graph available to save properties.")
+            logging.warning("No causal graph available to save properties. Please call find_causal_graph.")
 
         # Graph refutation metrics
         if self.graph_ref is not None:
@@ -855,9 +859,15 @@ class CausalModule:
             self.results['graph_refutation'] = ref_metrics
             pd.DataFrame([ref_metrics]).to_csv(os.path.join(dir_path, 'graph_refutation.csv'), index=False)
             logging.info(f"Graph refutation metrics saved to {os.path.join(dir_path, 'graph_refutation.csv')}")
+        else:
+            logging.warning("No causal graph refutation available to save properties. Please call refute_cgm.")
 
         # Graph quality score
         if self.graph is not None:
+            self.see_graph_properties()
+            self.see_graph_quality_score()
+            if self.node_quality_score is None:
+                self.see_node_quality_score(node_name=self.outcome_variable)
             self.results['node_quality_score'] = self.node_quality_score
             self.results['graph_quality_score'] = self.graph_quality_score
             self.results['graph_quality_summary'] = self.graph_quality_summary
@@ -867,6 +877,8 @@ class CausalModule:
             logging.info(f"Graph quality summary saved to {os.path.join(dir_path, 'graph_quality_summary.csv')}")            
             pd.DataFrame({'Node Quality Score': [self.node_quality_score]}).to_csv(os.path.join(dir_path, 'node_quality_score.csv'), index=False)
             logging.info(f"Node quality score saved to {os.path.join(dir_path, 'node_quality_score.csv')}")
+        else:
+            logging.warning("No causal graph available to save properties. Please call find_causal_graph.")
 
         # Effect estimate
         if self.estimate is not None:
@@ -874,6 +886,8 @@ class CausalModule:
             self.results['effect_estimate'] = estimate_metrics
             pd.DataFrame([estimate_metrics]).to_csv(os.path.join(dir_path, 'effect_estimate.csv'), index=False)
             logging.info(f"Effect estimate saved to {os.path.join(dir_path, 'effect_estimate.csv')}")
+        else:
+            logging.warning("No effect estimation done. Please call estimate_effect.")
 
         # Estimate refutation metrics
         if self.est_ref is not None:
@@ -888,9 +902,19 @@ class CausalModule:
             self.results['estimate_refutation'] = ref_results
             pd.DataFrame(ref_results).to_csv(os.path.join(dir_path, 'estimate_refutation.csv'), index=False)
             logging.info(f"Estimate refutation metrics saved to {os.path.join(dir_path, 'estimate_refutation.csv')}")
+        else:
+            logging.warning("No estimate refutation performed yet. Pleace call refute_estimate.")
         
-        if self.interventional_samples is not None:
-            self.results['interventional_samples'] = self.interventional_samples
-            self.interventional_samples.to_csv(os.path.join(dir_path, 'interventional_samples.csv'), index=False)
-            logging.info(f"Interventional samples saved to {os.path.join(dir_path, 'interventional_samples.csv')}")            
+        # if self.interventional_samples is not None:
+        #     self.results['interventional_samples'] = self.interventional_samples
+        #     self.interventional_samples.to_csv(os.path.join(dir_path, 'interventional_samples.csv'), index=False)
+        #     logging.info(f"Interventional samples saved to {os.path.join(dir_path, 'interventional_samples.csv')}")  
+        
+        if self.predictions is not None:
+            self.results['classification_predictions'] = self.predictions
+            self.predictions.to_csv(os.path.join(dir_path, 'classification_predictions.csv'), index=False)         
+            logging.info(f"Interventional samples saved to {os.path.join(dir_path, 'classification_predictions.csv')}")
+        else:
+            logging.warning("No predictions made yet. Please call batch_classify.")
+
 

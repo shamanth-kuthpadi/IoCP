@@ -1,501 +1,80 @@
-2025-08-19 11:30:43,221 INFO: CausalModule initialized with provided parameters.
-2025-08-19 11:30:43,221 INFO: Finding causal graph using pc algorithm
-2025-08-19 11:30:45,158 INFO: Creating a causal model from the discovered/given causal graph
-2025-08-19 11:30:45,159 INFO: Model to find the causal effect of treatment ['v0'] on outcome ['y']
-2025-08-19 11:30:45,160 INFO: Identifying the effect estimand of the treatment on the outcome variable
-2025-08-19 11:30:45,163 INFO: Causal effect can be identified.
-2025-08-19 11:30:45,165 INFO: Instrumental variables for treatment and outcome:['Z1', 'W3', 'W2', 'Z0']
-2025-08-19 11:30:45,167 INFO: Frontdoor variables for treatment and outcome:[]
-2025-08-19 11:30:45,167 INFO: Note that you can also use other methods for the identification process. Below are method descriptions taken directly from DoWhy's documentation
-2025-08-19 11:30:45,167 INFO: maximal-adjustment: returns the maximal set that satisfies the backdoor criterion. This is usually the fastest way to find a valid backdoor set, but the set may contain many superfluous variables.
-2025-08-19 11:30:45,168 INFO: minimal-adjustment: returns the set with minimal number of variables that satisfies the backdoor criterion. This may take longer to execute, and sometimes may not return any backdoor set within the maximum number of iterations.
-2025-08-19 11:30:45,168 INFO: exhaustive-search: returns all valid backdoor sets. This can take a while to run for large graphs.
-2025-08-19 11:30:45,168 INFO: default: This is a good mix of minimal and maximal adjustment. It starts with maximal adjustment which is usually fast. It then runs minimal adjustment and returns the set having the smallest number of variables.
-2025-08-19 11:30:45,169 INFO: Estimating the effect of the treatment on the outcome variable
-2025-08-19 11:30:45,169 INFO: linear_regression
-2025-08-19 11:30:45,170 INFO: INFO: Using Linear Regression Estimator
-2025-08-19 11:30:45,172 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,210 INFO: INFO: The sample size: 10000
-2025-08-19 11:30:45,210 INFO: INFO: The number of simulations: 399
-2025-08-19 11:30:45,214 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,240 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,265 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,291 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,318 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,345 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,374 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,401 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,428 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,453 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,481 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,506 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,533 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,564 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,590 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,617 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,642 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,668 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,694 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,721 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,746 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,772 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,800 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,828 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,854 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,882 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,907 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,932 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,957 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:45,982 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,008 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,035 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,061 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,087 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,114 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,141 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,168 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,194 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,220 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,246 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,271 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,297 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,323 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,350 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,381 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,409 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,436 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,462 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,486 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,512 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,538 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,564 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,589 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,614 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,639 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,663 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,687 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,713 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,737 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,762 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,789 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,833 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,862 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,887 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,912 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,936 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,961 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:46,989 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,014 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,038 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,062 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,086 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,110 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,134 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,160 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,184 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,211 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,236 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,262 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,286 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,312 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,336 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,360 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,386 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,412 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,436 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,461 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,487 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,511 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,537 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,562 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,586 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,610 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,634 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,659 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,683 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,708 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,733 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,758 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,782 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,807 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,832 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,857 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,881 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,907 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,932 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,957 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:47,982 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,006 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,031 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,056 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,082 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,107 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,131 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,155 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,180 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,204 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,229 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,254 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,280 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,305 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,330 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,354 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,379 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,404 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,430 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,454 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,480 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,506 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,531 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,556 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,579 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,604 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,629 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,654 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,679 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,707 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,734 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,761 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,785 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,810 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,833 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,858 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,883 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,908 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,932 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,959 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:48,984 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,011 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,037 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,063 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,087 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,112 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,137 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,162 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,186 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,214 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,239 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,264 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,290 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,315 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,340 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,364 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,390 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,414 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,439 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,466 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,491 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,517 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,543 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,567 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,594 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,619 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,645 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,671 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,696 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,722 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,747 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,773 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,799 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,823 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,848 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,873 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,898 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,922 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,946 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,972 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:49,999 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,024 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,049 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,093 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,121 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,145 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,169 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,195 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,219 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,247 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,273 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,298 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,325 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,350 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,376 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,400 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,427 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,456 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,482 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,508 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,533 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,559 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,583 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,608 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,633 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,658 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,683 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,710 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,735 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,761 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,786 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,812 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,838 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,863 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,889 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,912 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,938 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,964 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:50,989 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,015 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,043 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,072 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,102 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,129 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,154 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,179 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,204 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,230 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,254 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,280 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,306 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,331 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,356 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,381 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,407 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,433 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,459 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,484 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,511 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,536 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,562 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,587 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,613 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,637 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,664 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,690 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,716 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,741 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,766 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,792 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,816 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,842 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,867 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,892 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,916 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,944 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,968 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:51,995 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,019 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,045 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,071 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,098 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,124 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,149 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,176 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,203 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,230 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,255 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,280 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,305 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,330 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,355 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,381 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,407 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,432 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,458 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,483 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,509 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,534 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,559 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,584 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,609 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,635 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,661 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,686 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,711 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,736 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,763 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,788 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,814 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,839 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,865 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,890 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,914 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,939 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,964 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:52,989 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,014 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,039 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,083 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,115 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,139 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,164 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,190 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,215 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,240 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,264 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,290 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,316 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,341 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,366 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,391 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,416 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,441 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,465 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,489 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,515 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,540 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,565 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,591 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,617 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,642 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,666 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,694 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,718 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,743 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,768 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,796 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,821 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,846 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,873 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,899 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,931 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,956 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:53,982 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,007 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,032 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,058 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,084 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,109 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,134 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,159 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,184 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,210 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,234 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,261 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,285 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,311 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,336 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,362 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,387 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,413 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,439 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,464 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,489 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,516 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,541 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,566 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,591 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,616 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,641 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,666 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,692 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,717 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,743 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,768 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,795 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,820 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,846 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,871 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,895 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,919 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,945 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,971 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:54,996 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,021 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,046 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,072 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,098 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,123 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,148 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,174 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,199 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,225 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,249 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,275 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,299 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,325 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,350 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,375 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,400 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,427 INFO: b: y~v0+W1+W0+v0*W4
-2025-08-19 11:30:55,452 INFO: Note that it is ok for your treatment to be a continuous variable, DoWhy automatically discretizes at the backend.
-2025-08-19 11:30:55,453 INFO: ==========================================
-2025-08-19 11:30:55,454 INFO: Number of nodes: 9
-2025-08-19 11:30:55,454 INFO: ==========================================
-2025-08-19 11:30:55,455 INFO: Number of edges: 10
-2025-08-19 11:30:55,455 INFO: ==========================================
-2025-08-19 11:30:55,455 INFO: Edge: Z0 -> v0, Weight: 1
-2025-08-19 11:30:55,456 INFO: Edge: Z1 -> v0, Weight: 1
-2025-08-19 11:30:55,456 INFO: Edge: W0 -> v0, Weight: 1
-2025-08-19 11:30:55,456 INFO: Edge: W0 -> y, Weight: 1
-2025-08-19 11:30:55,457 INFO: Edge: W1 -> v0, Weight: 1
-2025-08-19 11:30:55,457 INFO: Edge: W1 -> y, Weight: 1
-2025-08-19 11:30:55,457 INFO: Edge: W2 -> v0, Weight: 1
-2025-08-19 11:30:55,457 INFO: Edge: W3 -> v0, Weight: 1
-2025-08-19 11:30:55,458 INFO: Edge: W4 -> y, Weight: 1
-2025-08-19 11:30:55,458 INFO: Edge: v0 -> y, Weight: 1
-2025-08-19 11:30:55,458 INFO: ==========================================
-2025-08-19 11:30:55,458 INFO: Paths from v0 [treatment] to y [outcome]: 1
-2025-08-19 11:30:55,459 INFO: v0 -> y
-2025-08-19 11:30:55,459 INFO: ==========================================
-2025-08-19 11:30:55,459 INFO: Markov blanket of v0: ['y', 'Z1', 'W1', 'W3', 'W4', 'W2', 'Z0', 'W0']
-2025-08-19 11:30:55,459 INFO: Markov blanket of y: ['v0', 'W1', 'W4', 'W0']
-2025-08-19 11:30:55,463 INFO: Graph properties saved to outputs/results/graph_properties.csv
-2025-08-19 11:30:55,464 INFO: Graph quality score saved to outputs/results/graph_quality_score.csv
-2025-08-19 11:30:55,465 INFO: Graph quality summary saved to outputs/results/graph_quality_summary.csv
-2025-08-19 11:30:55,466 INFO: Node quality score saved to outputs/results/node_quality_score.csv
-2025-08-19 11:30:55,467 INFO: Effect estimate saved to outputs/results/effect_estimate.csv
-2025-08-19 11:31:02,171 INFO: ==========================================
-2025-08-19 11:31:02,173 INFO: Number of nodes: 9
-2025-08-19 11:31:02,173 INFO: ==========================================
-2025-08-19 11:31:02,175 INFO: Number of edges: 10
-2025-08-19 11:31:02,176 INFO: ==========================================
-2025-08-19 11:31:02,176 INFO: Edge: Z0 -> v0, Weight: 1
-2025-08-19 11:31:02,177 INFO: Edge: Z1 -> v0, Weight: 1
-2025-08-19 11:31:02,177 INFO: Edge: W0 -> v0, Weight: 1
-2025-08-19 11:31:02,178 INFO: Edge: W0 -> y, Weight: 1
-2025-08-19 11:31:02,178 INFO: Edge: W1 -> v0, Weight: 1
-2025-08-19 11:31:02,178 INFO: Edge: W1 -> y, Weight: 1
-2025-08-19 11:31:02,179 INFO: Edge: W2 -> v0, Weight: 1
-2025-08-19 11:31:02,179 INFO: Edge: W3 -> v0, Weight: 1
-2025-08-19 11:31:02,179 INFO: Edge: W4 -> y, Weight: 1
-2025-08-19 11:31:02,180 INFO: Edge: v0 -> y, Weight: 1
-2025-08-19 11:31:02,180 INFO: ==========================================
-2025-08-19 11:31:02,181 INFO: Paths from v0 [treatment] to y [outcome]: 1
-2025-08-19 11:31:02,181 INFO: v0 -> y
-2025-08-19 11:31:02,181 INFO: ==========================================
-2025-08-19 11:31:02,182 INFO: Markov blanket of v0: ['y', 'Z1', 'W1', 'W3', 'W4', 'W2', 'Z0', 'W0']
-2025-08-19 11:31:02,182 INFO: Markov blanket of y: ['v0', 'W1', 'W4', 'W0']
-2025-08-19 11:31:02,183 INFO: Graph properties saved to outputs/results/graph_properties.csv
-2025-08-19 11:31:02,184 INFO: Graph quality score saved to outputs/results/graph_quality_score.csv
-2025-08-19 11:31:02,185 INFO: Graph quality summary saved to outputs/results/graph_quality_summary.csv
-2025-08-19 11:31:02,186 INFO: Node quality score saved to outputs/results/node_quality_score.csv
-2025-08-19 11:31:02,188 INFO: Effect estimate saved to outputs/results/effect_estimate.csv
-2025-08-19 11:31:02,198 INFO: Interventional samples saved to outputs/results/interventional_samples.csv
-2025-08-19 11:35:36,147 INFO: Graph Quality Score: [[14  2]
+2025-08-19 17:42:09,450 INFO: CausalModule initialized with provided parameters.
+2025-08-19 17:42:09,455 INFO: Finding causal graph using pc algorithm
+2025-08-19 17:42:09,979 INFO: ==========================================
+2025-08-19 17:42:09,980 INFO: Number of nodes: 9
+2025-08-19 17:42:09,980 INFO: ==========================================
+2025-08-19 17:42:09,981 INFO: Number of edges: 10
+2025-08-19 17:42:09,981 INFO: ==========================================
+2025-08-19 17:42:09,982 INFO: Edge: Z0 -> v0, Weight: 1
+2025-08-19 17:42:09,982 INFO: Edge: Z1 -> Z0, Weight: 1
+2025-08-19 17:42:09,982 INFO: Edge: Z1 -> v0, Weight: 1
+2025-08-19 17:42:09,983 INFO: Edge: W0 -> y, Weight: 1
+2025-08-19 17:42:09,983 INFO: Edge: W1 -> v0, Weight: 1
+2025-08-19 17:42:09,983 INFO: Edge: W1 -> y, Weight: 1
+2025-08-19 17:42:09,984 INFO: Edge: W2 -> y, Weight: 1
+2025-08-19 17:42:09,984 INFO: Edge: W3 -> v0, Weight: 1
+2025-08-19 17:42:09,984 INFO: Edge: W4 -> y, Weight: 1
+2025-08-19 17:42:09,985 INFO: Edge: v0 -> y, Weight: 1
+2025-08-19 17:42:09,985 INFO: ==========================================
+2025-08-19 17:42:09,985 INFO: Paths from v0 [treatment] to y [outcome]: 1
+2025-08-19 17:42:09,986 INFO: v0 -> y
+2025-08-19 17:42:09,986 INFO: ==========================================
+2025-08-19 17:42:09,986 INFO: Markov blanket of v0: ['W4', 'y', 'W1', 'W3', 'Z0', 'W2', 'Z1', 'W0']
+2025-08-19 17:42:09,986 INFO: Markov blanket of y: ['W4', 'W1', 'v0', 'W2', 'W0']
+2025-08-19 17:42:09,992 INFO: Refuting the discovered/given causal graph
+2025-08-19 17:42:46,807 INFO: Graph refutation metrics: TPA: 0/10 (p-value: 0.00), LMC: 7/49 (p-value: 0.00)
+2025-08-19 17:42:47,029 INFO: Creating a causal model from the discovered/given causal graph
+2025-08-19 17:42:47,030 INFO: Model to find the causal effect of treatment ['v0'] on outcome ['y']
+2025-08-19 17:42:50,685 INFO: ==========================================
+2025-08-19 17:42:50,685 INFO: Number of nodes: 9
+2025-08-19 17:42:50,686 INFO: ==========================================
+2025-08-19 17:42:50,686 INFO: Number of edges: 10
+2025-08-19 17:42:50,687 INFO: ==========================================
+2025-08-19 17:42:50,687 INFO: Edge: Z0 -> v0, Weight: 1
+2025-08-19 17:42:50,687 INFO: Edge: Z1 -> Z0, Weight: 1
+2025-08-19 17:42:50,688 INFO: Edge: Z1 -> v0, Weight: 1
+2025-08-19 17:42:50,688 INFO: Edge: W0 -> y, Weight: 1
+2025-08-19 17:42:50,688 INFO: Edge: W1 -> v0, Weight: 1
+2025-08-19 17:42:50,689 INFO: Edge: W1 -> y, Weight: 1
+2025-08-19 17:42:50,689 INFO: Edge: W2 -> y, Weight: 1
+2025-08-19 17:42:50,690 INFO: Edge: W3 -> v0, Weight: 1
+2025-08-19 17:42:50,690 INFO: Edge: W4 -> y, Weight: 1
+2025-08-19 17:42:50,690 INFO: Edge: v0 -> y, Weight: 1
+2025-08-19 17:42:50,691 INFO: ==========================================
+2025-08-19 17:42:50,691 INFO: Paths from v0 [treatment] to y [outcome]: 1
+2025-08-19 17:42:50,691 INFO: v0 -> y
+2025-08-19 17:42:50,692 INFO: ==========================================
+2025-08-19 17:42:50,692 INFO: Markov blanket of v0: ['W4', 'y', 'W1', 'W3', 'Z0', 'W2', 'Z1', 'W0']
+2025-08-19 17:42:50,692 INFO: Markov blanket of y: ['W4', 'W1', 'v0', 'W2', 'W0']
+2025-08-19 17:42:50,697 INFO: Graph properties saved to outputs/results/graph_properties.csv
+2025-08-19 17:42:50,698 INFO: Graph refutation metrics saved to outputs/results/graph_refutation.csv
+2025-08-19 17:42:50,699 INFO: ==========================================
+2025-08-19 17:42:50,699 INFO: Number of nodes: 9
+2025-08-19 17:42:50,700 INFO: ==========================================
+2025-08-19 17:42:50,700 INFO: Number of edges: 10
+2025-08-19 17:42:50,700 INFO: ==========================================
+2025-08-19 17:42:50,701 INFO: Edge: Z0 -> v0, Weight: 1
+2025-08-19 17:42:50,701 INFO: Edge: Z1 -> Z0, Weight: 1
+2025-08-19 17:42:50,702 INFO: Edge: Z1 -> v0, Weight: 1
+2025-08-19 17:42:50,702 INFO: Edge: W0 -> y, Weight: 1
+2025-08-19 17:42:50,702 INFO: Edge: W1 -> v0, Weight: 1
+2025-08-19 17:42:50,703 INFO: Edge: W1 -> y, Weight: 1
+2025-08-19 17:42:50,703 INFO: Edge: W2 -> y, Weight: 1
+2025-08-19 17:42:50,703 INFO: Edge: W3 -> v0, Weight: 1
+2025-08-19 17:42:50,704 INFO: Edge: W4 -> y, Weight: 1
+2025-08-19 17:42:50,704 INFO: Edge: v0 -> y, Weight: 1
+2025-08-19 17:42:50,704 INFO: ==========================================
+2025-08-19 17:42:50,705 INFO: Paths from v0 [treatment] to y [outcome]: 1
+2025-08-19 17:42:50,705 INFO: v0 -> y
+2025-08-19 17:42:50,705 INFO: ==========================================
+2025-08-19 17:42:50,706 INFO: Markov blanket of v0: ['W4', 'y', 'W1', 'W3', 'Z0', 'W2', 'Z1', 'W0']
+2025-08-19 17:42:50,706 INFO: Markov blanket of y: ['W4', 'W1', 'v0', 'W2', 'W0']
+2025-08-19 17:42:50,734 INFO: Graph Quality Score: [[13  3]
  [ 0 20]]
-2025-08-19 11:35:47,063 INFO: ==========================================
-2025-08-19 11:35:47,063 INFO: Number of nodes: 9
-2025-08-19 11:35:47,063 INFO: ==========================================
-2025-08-19 11:35:47,064 INFO: Number of edges: 10
-2025-08-19 11:35:47,064 INFO: ==========================================
-2025-08-19 11:35:47,065 INFO: Edge: Z0 -> v0, Weight: 1
-2025-08-19 11:35:47,065 INFO: Edge: Z1 -> v0, Weight: 1
-2025-08-19 11:35:47,065 INFO: Edge: W0 -> v0, Weight: 1
-2025-08-19 11:35:47,065 INFO: Edge: W0 -> y, Weight: 1
-2025-08-19 11:35:47,066 INFO: Edge: W1 -> v0, Weight: 1
-2025-08-19 11:35:47,066 INFO: Edge: W1 -> y, Weight: 1
-2025-08-19 11:35:47,066 INFO: Edge: W2 -> v0, Weight: 1
-2025-08-19 11:35:47,066 INFO: Edge: W3 -> v0, Weight: 1
-2025-08-19 11:35:47,067 INFO: Edge: W4 -> y, Weight: 1
-2025-08-19 11:35:47,067 INFO: Edge: v0 -> y, Weight: 1
-2025-08-19 11:35:47,067 INFO: ==========================================
-2025-08-19 11:35:47,068 INFO: Paths from v0 [treatment] to y [outcome]: 1
-2025-08-19 11:35:47,068 INFO: v0 -> y
-2025-08-19 11:35:47,068 INFO: ==========================================
-2025-08-19 11:35:47,069 INFO: Markov blanket of v0: ['y', 'Z1', 'W1', 'W3', 'W4', 'W2', 'Z0', 'W0']
-2025-08-19 11:35:47,069 INFO: Markov blanket of y: ['v0', 'W1', 'W4', 'W0']
-2025-08-19 11:35:47,071 INFO: Graph properties saved to outputs/results/graph_properties.csv
-2025-08-19 11:35:47,073 INFO: Graph quality score saved to outputs/results/graph_quality_score.csv
-2025-08-19 11:35:47,076 INFO: Graph quality summary saved to outputs/results/graph_quality_summary.csv
-2025-08-19 11:35:47,077 INFO: Node quality score saved to outputs/results/node_quality_score.csv
-2025-08-19 11:35:47,078 INFO: Effect estimate saved to outputs/results/effect_estimate.csv
-2025-08-19 11:35:47,090 INFO: Interventional samples saved to outputs/results/interventional_samples.csv
+2025-08-19 17:42:50,735 WARNING: No node quality score to see.
+2025-08-19 17:42:50,736 INFO: Graph quality score saved to outputs/results/graph_quality_score.csv
+2025-08-19 17:42:50,738 INFO: Graph quality summary saved to outputs/results/graph_quality_summary.csv
+2025-08-19 17:42:50,739 INFO: Node quality score saved to outputs/results/node_quality_score.csv
+2025-08-19 17:42:50,739 WARNING: No effect estimation done. Please call estimate_effect.
+2025-08-19 17:42:50,739 WARNING: No estimate refutation performed yet. Pleace call refute_estimate.
+2025-08-19 17:42:50,741 INFO: Interventional samples saved to outputs/results/classification_predictions.csv
