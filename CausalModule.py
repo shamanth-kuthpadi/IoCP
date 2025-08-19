@@ -57,6 +57,7 @@ nx.d_separated = nx.algorithms.d_separation.is_d_separator
 import re
 import os
 import pickle
+from collections import Counter
 
 # This is for logging the pipeline intermediary outputs. 
 # used AI to generate the logging code, so it might not be perfect.
@@ -775,8 +776,41 @@ class CausalModule:
         self.interventional_samples = samples
         
         return samples
-        
+    
+    def batch_intervention_predict(self, intervention_df, outcome_var, num_samples_to_draw=100):
+        """
+        Runs simulate_intervention for each row in intervention_df,
+        makes predictions based on majority vote, and computes confidence scores.
 
+        PREREQUISITES:
+        - A causal graph must be available (call find_causal_graph or input_causal_graph first)
+        - Data must be provided and accessible
+        - Variable to intervene on must exist in the causal graph
+        - Intervention value must be appropriate for the variable type
+
+        Parameters:
+            intervention_df (pd.DataFrame): Rows = intervention scenarios, Columns = variables to intervene on.
+            outcome_var (str): The outcome variable to predict.
+            num_samples_to_draw (int): Number of samples per intervention simulation.
+
+        Returns:
+            pd.DataFrame with columns ["prediction", "confidence"], aligned with intervention_df.
+        """
+        predictions, confidences = [], []
+        feature_df = intervention_df.drop(columns=[outcome_var])
+        
+        for _, row in feature_df.iterrows():
+            intervention_dict = {col: (lambda x, val=row[col]: val) for col in feature_df.columns}
+            samples = self.simulate_intervention(intervention_dict, num_samples_to_draw=num_samples_to_draw)
+            outcomes = samples[outcome_var].values
+            counter = Counter(outcomes)
+            pred_class, count = counter.most_common(1)[0]
+            confidence = count / len(outcomes)
+            predictions.append(pred_class)
+            confidences.append(confidence)
+
+        return pd.DataFrame({"prediction": predictions, "confidence": confidences}, index=intervention_df.index)
+    
     def store_results(self, dir_path='outputs/results'):
         """
         Stores various causal inference outputs as a Python object

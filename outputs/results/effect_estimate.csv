@@ -1,2 +1,2 @@
 Effect Estimate,Realized Estimand Expression,Treatment Value,Control Value
-0.567597993576163,b: y~v0+W3+W4+W2+v0*W1+v0*W0,1,0
+0.44412908203108137,b: y~v0+W1+W0+v0*W4,1,0
