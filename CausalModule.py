@@ -315,7 +315,7 @@ class CausalModule:
         self.model = model_est
         return self.model
 
-    def identify_effect(self, method=None):
+    def identify_effect(self, method_name="default", proceed_when_unidentifiable=None):
         """
         Identifies the effect of the treatment on the outcome variable using the causal model.
         
@@ -325,20 +325,17 @@ class CausalModule:
         - The causal graph must have a valid path from treatment to outcome
         
         Parameters:
-            - method: Method to use for effect identification (default is None, which uses the default method set by DoWhy).
-                     Options: 'maximal-adjustment', 'minimal-adjustment', 'exhaustive-search', 'default'
+            - method_name: Method name for identification algorithm. ("id-algorithm" or "default")
+            - proceed_when_unidentifiable: Binary flag indicating whether identification should proceed in the presence of (potential) unobserved confounders.
         
         Returns:
-            - The identified estimand as a dowhy IdentifiedEstimand object.
+            - a probability expression (estimand) as a dowhy IdentifiedEstimand object for the causal effect if identified, else NULL
         """
         
         logging.info("Identifying the effect estimand of the treatment on the outcome variable")
         
         try:
-            if method is None:
-                identified_estimand = self.model.identify_effect()
-            else:
-                identified_estimand = self.model.identify_effect(method=method)
+            identified_estimand = self.model.identify_effect(method_name=method_name, proceed_when_unidentifiable=proceed_when_unidentifiable)
 
             self.estimand = identified_estimand
             # Add logging if estimand is None or not identified
@@ -348,14 +345,21 @@ class CausalModule:
             logging.error(f"Error in identifying effect: {e}")
             raise
 
-        logging.info("Note that you can also use other methods for the identification process. Below are method descriptions taken directly from DoWhy's documentation")
-        logging.info("maximal-adjustment: returns the maximal set that satisfies the backdoor criterion. This is usually the fastest way to find a valid backdoor set, but the set may contain many superfluous variables.")
-        logging.info("minimal-adjustment: returns the set with minimal number of variables that satisfies the backdoor criterion. This may take longer to execute, and sometimes may not return any backdoor set within the maximum number of iterations.")
-        logging.info("exhaustive-search: returns all valid backdoor sets. This can take a while to run for large graphs.")
-        logging.info("default: This is a good mix of minimal and maximal adjustment. It starts with maximal adjustment which is usually fast. It then runs minimal adjustment and returns the set having the smallest number of variables.")
         return self.estimand
     
-    def estimate_effect(self,  ctrl_val, trtm_val, method_cat='backdoor.linear_regression'):
+    def estimate_effect(
+        self,  
+        ctrl_val, 
+        trtm_val, 
+        method_name='backdoor.linear_regression', 
+        confidence_intervals=False,
+        test_significance=False,
+        evaluate_effect_strength=False,
+        target_units="ate",
+        effect_modifiers=None,
+        fit_estimator=True,
+        method_params=None 
+    ):
         """
         Estimates the effect of the treatment on the outcome variable using the identified estimand.
         
@@ -365,27 +369,40 @@ class CausalModule:
         - The causal model must be valid and accessible
         
         Parameters:
-            - method_cat: The method category to use for effect estimation (default is 'backdoor.linear_regression').
-            - ctrl_val: The control value for the treatment variable 
-            - trtm_val: The treatment value for the treatment variable
-        
+            - identified_estimand: a probability expression that represents the effect to be estimated. Output of CausalModel.identify_effect method
+            - method_name: name of the estimation method to be used.
+            - control_value: Value of the treatment in the control group, for effect estimation.  If treatment is multi-variate, this can be a list.
+            - treatment_value: Value of the treatment in the treated group, for effect estimation. If treatment is multi-variate, this can be a list.
+            - test_significance: Binary flag on whether to additionally do a statistical signficance test for the estimate.
+            - evaluate_effect_strength: (Experimental) Binary flag on whether to estimate the relative strength of the treatment's effect. This measure can be used to compare different treatments for the same outcome (by running this method with different treatments sequentially).
+            - confidence_intervals: (Experimental) Binary flag indicating whether confidence intervals should be computed.
+            - target_units: (Experimental) The units for which the treatment effect should be estimated. This can be of three types. (1) a string for common specifications of target units (namely, "ate", "att" and "atc"), (2) a lambda function that can be used as an index for the data (pandas DataFrame), or (3) a new DataFrame that contains values of the effect_modifiers and effect will be estimated only for this new data.
+            - effect_modifiers: Names of effect modifier variables can be (optionally) specified here too, since they do not affect identification. If None, the effect_modifiers from the CausalModel are used.
+            - fit_estimator: Boolean flag on whether to fit the estimator.
+                Setting it to False is useful to estimate the effect on new data using a previously fitted estimator.
+            - method_params: Dictionary containing any method-specific parameters. These are passed directly to the estimating method. See the docs for each estimation method for allowed method-specific params.
+
         Returns:
-            - The estimated effect as a dowhy EffectEstimate object.
+            -  An instance of the CausalEstimate class, containing the causal effect estimate and other method-dependent information.
         """
         
         logging.info("Estimating the effect of the treatment on the outcome variable")
                     
         estimate = None
         try:
-            match method_cat:
-                case 'backdoor.linear_regression':
-                    estimate = self.model.estimate_effect(self.estimand,
-                                                  method_name=method_cat,
-                                                  control_value=ctrl_val,
-                                                  treatment_value=trtm_val,
-                                                  confidence_intervals=True,
-                                                  test_significance=True)
-                # there are other estimation methods that I can add later on, however parameter space will increase immensely
+            estimate = self.model.estimate_effect(
+                                            identified_estimand=self.estimand,
+                                            method_name=method_name,
+                                            control_value=ctrl_val,
+                                            treatment_value=trtm_val,
+                                            confidence_intervals=confidence_intervals,
+                                            test_significance=test_significance,
+                                            evaluate_effect_strength=evaluate_effect_strength,
+                                            target_units=target_units,
+                                            effect_modifiers=effect_modifiers,
+                                            fit_estimator=fit_estimator,
+                                            method_params=method_params
+                                            )
             self.estimate = estimate
         except Exception as e:
             logging.error(f"Error in estimating the effect: {e}")
@@ -394,8 +411,6 @@ class CausalModule:
         logging.info("Note that it is ok for your treatment to be a continuous variable, DoWhy automatically discretizes at the backend.")
         return self.estimate
     
-    # should give a warning to users if the estimate is to be refuted
-
     def refute_estimate(self):
         """
         Refutes the estimated effect of the treatment on the outcome variable using various methods.
@@ -564,8 +579,6 @@ class CausalModule:
         Returns:
             - The graph quality score.
         """
-        # Implement the logic to calculate the graph quality score
-        # This is a placeholder implementation
         pggraph = DAG(graph)
 
         results = correlation_score(pggraph, data, test, significance_level, score, return_summary=False)

@@ -1,11 +1,11 @@
 Graph Quality Summary
 "   var1 var2  stat_test  d_connected
-0    Z0   Z1       True        False
-1    Z0   W0      False        False
-2    Z0   W1       True        False
+0    Z0   Z1       True         True
+1    Z0   W0       True         True
+2    Z0   W1       True         True
 3    Z0   W2       True         True
-4    Z0   W3       True        False
-5    Z0   W4       True        False
+4    Z0   W3       True         True
+5    Z0   W4       True         True
 6    Z0   v0      False        False
 7    Z0    y      False        False
 8    Z1   W0       True         True
@@ -28,11 +28,11 @@ Graph Quality Summary
 25   W1    y      False        False
 26   W2   W3       True         True
 27   W2   W4       True         True
-28   W2   v0      False         True
+28   W2   v0       True         True
 29   W2    y      False        False
 30   W3   W4       True         True
 31   W3   v0      False        False
 32   W3    y      False        False
-33   W4   v0      False        False
+33   W4   v0      False         True
 34   W4    y      False        False
 35   v0    y      False        False"
