@@ -166,6 +166,11 @@ class CausalModule:
                     cg = pdag2dag(cg.G)
                     predicted_graph = genG_to_nx(cg, labels)
                     self.graph = predicted_graph
+                case 'pc-nl':
+                    cg = pc(data=df, show_progress=True, node_names=labels, verbose=False, indep_test='kci')
+                    cg = pdag2dag(cg.G)
+                    predicted_graph = genG_to_nx(cg, labels)
+                    self.graph = predicted_graph
                 case 'grasp':
                     cg = grasp(X=df, node_names=labels, verbose=False)
                     cg = pdag2dag(cg)
@@ -535,6 +540,8 @@ class CausalModule:
         else:
             logging.warning("No causal graph available to visualize.")
         
+        return self.graph
+        
     def _extract_graph_refutation_metrics(self, graph_ref_str):
         """
         Extracts metrics from the graph refutation result string.
@@ -760,7 +767,7 @@ class CausalModule:
             logging.warning("No node quality score to see.") 
             
     # https://www.pywhy.org/dowhy/v0.11/user_guide/causal_tasks/what_if/interventions.html    
-    def simulate_intervention(self, variable_to_intervene_dict, num_samples_to_draw=100):
+    def _simulate_intervention(self, variable_to_intervene_dict, num_samples_to_draw=100):
         """
         Simulates an intervention on a specified variable and returns samples from the interventional distribution.
         This is also synonymous to a classifier in the case that all features (besides the target/outcome feature) are intervened on.
@@ -815,7 +822,7 @@ class CausalModule:
         
         for _, row in feature_df.iterrows():
             intervention_dict = {col: (lambda x, val=row[col]: val) for col in feature_df.columns}
-            samples = self.simulate_intervention(intervention_dict, num_samples_to_draw=num_samples_to_draw)
+            samples = self._simulate_intervention(intervention_dict, num_samples_to_draw=num_samples_to_draw)
             outcomes = samples[outcome_var].values
             counter = Counter(outcomes)
             pred_class, count = counter.most_common(1)[0]
@@ -917,12 +924,8 @@ class CausalModule:
             logging.info(f"Estimate refutation metrics saved to {os.path.join(dir_path, 'estimate_refutation.csv')}")
         else:
             logging.warning("No estimate refutation performed yet. Pleace call refute_estimate.")
-        
-        # if self.interventional_samples is not None:
-        #     self.results['interventional_samples'] = self.interventional_samples
-        #     self.interventional_samples.to_csv(os.path.join(dir_path, 'interventional_samples.csv'), index=False)
-        #     logging.info(f"Interventional samples saved to {os.path.join(dir_path, 'interventional_samples.csv')}")  
-        
+            
+        # Classification predictions
         if self.predictions is not None:
             self.results['classification_predictions'] = self.predictions
             self.predictions.to_csv(os.path.join(dir_path, 'classification_predictions.csv'), index=False)         
